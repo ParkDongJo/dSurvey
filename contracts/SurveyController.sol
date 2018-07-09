@@ -17,7 +17,7 @@ contract SurveyController is Ownable {
 
   // 설문 조사 생성
   function createSurvey() public {
-    address newSurveyAddress = address(new Survey());
+    address newSurveyAddress = address(new Survey(msg.sender));
 
     require(newSurveyAddress != address(0));
     surveyList.push(newSurveyAddress);
