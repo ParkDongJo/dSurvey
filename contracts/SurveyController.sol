@@ -24,4 +24,16 @@ contract SurveyController {
       return surveyList;
     }
 
+    // 지갑주소 당 보유 설문 리스트
+    function getSurveyByAddr(address _address) view return() {
+      uint[] list = ownedSurveyList[_address];
+      address[] owned;
+
+      for(uint i=0; i < list.length; i++ ) {
+        owned.push(surveyList[list[i]]);
+      }
+
+      return owned;
+    }
+
 }
