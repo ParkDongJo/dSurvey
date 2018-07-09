@@ -60,9 +60,10 @@ contract Survey {
     // 답변 등록
 
     // 전체 내용 출력
-    function getSurvey() view public returns(string){
-
-      return "";
+    function getQuestions(uint _idx) view public returns(string, string[]){
+      return (question[_idx], choice[_idx]);
     }
+
+
 
 }
