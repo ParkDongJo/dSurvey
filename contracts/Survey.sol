@@ -14,9 +14,9 @@ contract Survey is Ownable {
   mapping (uint => string[]) public choice;
   mapping (address => mapping (uint => string)) public answer;
   mapping (uint => userAnswer[]) public userAnswers;
-
-  constructor(address _owner) public {
-    transferOwnership(_owner);
+  
+  constructor(address _newOwner) public {
+    transferOwnership(_newOwner);
   }
 
   // 질문과 선택지 입력
