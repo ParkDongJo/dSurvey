@@ -13,10 +13,10 @@ contract Survey is Ownable {
   string[]  public question;
   mapping (uint => string[]) public choice;
   mapping (address => mapping (uint => string)) public answer;
-  mapping (uint => userAnswer[]) public userAnwsers;
+  mapping (uint => userAnswer[]) public userAnswers;
 
-  constructor() public {
-
+  constructor(address _owner) public {
+    transferOwnership(_owner);
   }
 
   // 질문과 선택지 입력
@@ -33,8 +33,17 @@ contract Survey is Ownable {
   }
 
   // 질문 당 각 유저와 대답 출력
-  function getUserAnswer(uint _idx) view public returns(address, string) {
-    return (userAnswers[_idx].user, userAnswers[_idx].answer);
+  function getUserAnswer(uint _idx) view public returns(address[], string[]) {
+    userAnswer[] list = userAnswers[_idx];
+    address[] users;
+    string[] answers;
+
+    for (uint256 i = 0; i < list.length; i++) {
+      users.push(list[i].user);
+      answers.push(list[i].answer);
+    }
+
+    return (users, answers);
   }
 
   // 답변 등록

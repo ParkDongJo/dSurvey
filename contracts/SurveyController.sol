@@ -17,7 +17,7 @@ contract SurveyController is Ownable {
 
   // 설문 조사 생성
   function createSurvey() public {
-    address newSurveyAddress = address(new Survey());
+    address newSurveyAddress = address(new Survey(msg.sender));
 
     require(newSurveyAddress != address(0));
     surveyList.push(newSurveyAddress);
@@ -39,7 +39,7 @@ contract SurveyController is Ownable {
   }
 
   // 지갑주소 당 보유 설문 리스트
-  function getSurveyByAddr(address _address) view return() {
+  function getSurveyByAddr(address _address) view returns(address[]) {
     uint[] list = ownedSurveyList[_address];
     address[] owned;
 
