@@ -1,8 +1,9 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
+import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract Survey {
+contract Survey is Ownable {
 
   struct userAnswer {
     address user;
@@ -37,9 +38,9 @@ contract Survey {
   }
 
   // 답변 등록
-  function setAnswer(string[] _answers) {
+  function setAnswer(string[] _answers) public {
     for (uint256 i = 0; i < _answers.length; i++) {
-        answer[msg.sender][i] = _answers[i];
+      answer[msg.sender][i] = _answers[i];
     }
   }
 
