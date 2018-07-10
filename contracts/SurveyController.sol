@@ -1,12 +1,15 @@
 pragma solidity ^0.4.24;
+pragma experimental ABIEncoderV2;
 
 import "./Survey.sol";
+import "./DSurveyToken.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract SurveyController is Ownable {
 
   enum Status {Prepare, Ing, Complete, OnSale}
 
+  DSurveyToken public token;
   string[] internal categories;
   address[] internal surveyList;
   mapping (address => Status) internal surveyStatus;
@@ -18,8 +21,9 @@ contract SurveyController is Ownable {
     _;
   }
 
-  constructor(string[] _categories) public {
-    this.categories = categories;
+  constructor(string[] _categories, address _tokenAddress) public {
+    categories = categories;
+    token = DSurveyToken(_tokenAddress);
   }
 
   // 설문 조사 리스트
@@ -43,8 +47,17 @@ contract SurveyController is Ownable {
   }
 
   // 설문 조사 생성
-  function createSurvey(uint _categoryIdx) public returns(address) {
-    address newSurveyAddress = address(new Survey(msg.sender, _categoryIdx));
+  function createSurvey(
+    uint _categoryIdx,
+    string _title,
+    uint _totToken,
+    uint _reward
+  )
+  public returns(address)
+  {
+    require(token.balanceOf(msg.sender) > 0);
+    address newSurveyAddress = address(new Survey(msg.sender, _categoryIdx, _title, address(token), _reward));
+    require(address(token).delegatecall(bytes4(keccak256("transfer(address, uint256)")), newSurveyAddress, _totToken));
 
     require(newSurveyAddress != address(0));
     surveyList.push(newSurveyAddress);
@@ -69,7 +82,7 @@ contract SurveyController is Ownable {
   }
 
   // 카테고리 추가
-  function addCategory(string _newCategory) onlyOwner {
+  function addCategory(string _newCategory) public onlyOwner {
     categories.push(_newCategory);
   }
 }
