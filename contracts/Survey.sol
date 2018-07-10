@@ -5,6 +5,8 @@ import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownershi
 
 contract Survey is Ownable {
 
+  uint public categoryIdx;
+
   string[] internal question; // 질문 목록
   mapping (uint => string[]) internal choice; // 질문 별 보기 목록
   mapping (address => mapping (uint => string)) internal answer; // 사용자의 질문 별 답변
@@ -15,8 +17,9 @@ contract Survey is Ownable {
   // SurveyController가 기본 owner로 설정되어서 요청자로 owner를 변경함
   // 이걸 실행하지 않고 요청자가 owner가 되게 하려면 controller에서 호출 할 때
   // delegateCall로 생성자를 호출해야 함
-  constructor(address _newOwner) public {
+  constructor(address _newOwner, uint _categoryIdx) public {
     transferOwnership(_newOwner);
+    this._categoryIdx = _categoryIdx;
   }
 
   // 질문과 선택지 입력
