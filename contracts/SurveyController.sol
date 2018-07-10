@@ -7,9 +7,15 @@ contract SurveyController is Ownable {
 
   enum Status {Ing, Complete, OnSale}
 
-  address[] public surveyList;
-  mapping (address => Status) public surveyStatus;
-  mapping (address => address[]) public ownedSurveyList;
+  address[] internal surveyList;
+  mapping (address => Status) internal surveyStatus;
+  mapping (address => address[]) internal ownedSurveyList;
+
+  // 설문 조사 owner만 실행 가능
+  modifier onlySurveyOwner(address _surveyAddress) {
+    require(msg.sender == Survey(_surveyAddress).owner());
+    _;
+  }
 
   constructor() public {
 
@@ -27,27 +33,24 @@ contract SurveyController is Ownable {
     ownedSurveyList[msg.sender].push(newSurveyAddress);
   }
 
+  // 설문 조사 종료
+  function completeSurvey(address _surveyAddress) public onlySurveyOwner(_surveyAddress) {
+    require(surveyStatus[_surveyAddress] == Status.Ing);
+    surveyStatus[_surveyAddress] = Status.Complete;
+  }
+
   // 설문 조사 리스트
   function getSurveyList() public view returns(address[]) {
     return surveyList;
   }
 
-  // 설문 조사 종료
-  function completeSurvey(address _surveyAddress) public {
-    require(msg.sender == Survey(_surveyAddress).owner());
-    surveyStatus[_surveyAddress] = Status.Complete;
-  }
-
   // 지갑주소 당 보유 설문 리스트
-  function getSurveyByAddr(address _address) view returns(address[]) {
-    uint[] list = ownedSurveyList[_address];
-    address[] owned;
-
-    for(uint i=0; i < list.length; i++ ) {
-      owned.push(surveyList[list[i]]);
-    }
-
-    return owned;
+  function getOwnedSurveyList(address _surveyAddress) public view returns(address[]) {
+    return ownedSurveyList[_surveyAddress];
   }
 
+  // 설문 조사 상태
+  function getSurveyStatus(address _surveyAddress) public view returns(uint8) {
+    return uint8(surveyStatus[_surveyAddress]);
+  }
 }
