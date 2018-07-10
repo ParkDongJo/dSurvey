@@ -19,17 +19,27 @@ contract Survey is Ownable {
     transferOwnership(_newOwner);
   }
 
+  // 답변을 등록한 사용자 목록
+  function getAnsweredUsers() view public returns(address[]) {
+    return answeredUsers;
+  }
+
+  // 질문 당 사용자들이 등록한 답변 목록
+  function getAnswersPerQuestion(uint _idx) view public returns(string[]) {
+    return answersPerQuestion[_idx];
+  }
+
+  // 전체 내용 출력
+  function getQuestionAndChoices(uint _idx) view public returns(string, string[]){
+    return (question[_idx], choice[_idx]);
+  }
+
   // 질문과 선택지 입력
   function addQuestionAndChoices(string _question, string[] _choices) public {
     uint256 idx = question.push(_question) - 1;
     for (uint i = 0; i < _choices.length; i++) {
       choice[idx].push(_choices[i]);
     }
-  }
-
-  // 전체 내용 출력
-  function getQuestionAndChoices(uint _idx) view public returns(string, string[]){
-    return (question[_idx], choice[_idx]);
   }
 
   // 답변 등록
@@ -41,16 +51,6 @@ contract Survey is Ownable {
     }
     // 답변 한 사용자 목록에 추가
     answeredUsers.push(msg.sender);
-  }
-
-  // 답변을 등록한 사용자 목록
-  function getAnsweredUsers() view public returns(address[]) {
-    return answeredUsers;
-  }
-
-  // 질문 당 사용자들이 등록한 답변 목록
-  function getAnswersPerQuestion(uint _idx) view public returns(string[]) {
-    return answersPerQuestion[_idx];
   }
 
 }
