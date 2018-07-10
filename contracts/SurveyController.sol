@@ -5,7 +5,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownershi
 
 contract SurveyController is Ownable {
 
-  enum Status {Ing, Complete, OnSale}
+  enum Status {Prepare, Ing, Complete, OnSale}
 
   string[] internal categories;
   address[] internal surveyList;
@@ -43,15 +43,23 @@ contract SurveyController is Ownable {
   }
 
   // 설문 조사 생성
-  function createSurvey(uint _categoryIdx) public {
+  function createSurvey(uint _categoryIdx) public returns(address) {
     address newSurveyAddress = address(new Survey(msg.sender, _categoryIdx));
 
     require(newSurveyAddress != address(0));
     surveyList.push(newSurveyAddress);
-    surveyStatus[newSurveyAddress] = Status.Ing;
+    surveyStatus[newSurveyAddress] = Status.Prepare;
 
     require(msg.sender != address(0));
     ownedSurveyList[msg.sender].push(newSurveyAddress);
+
+    return newSurveyAddress;
+  }
+
+  // 설문 조사 시작
+  function startSurvey(address _surveyAddress) public onlySurveyOwner(_surveyAddress) {
+    require(surveyStatus[_surveyAddress] == Status.Prepare);
+    surveyStatus[_surveyAddress] = Status.Ing;
   }
 
   // 설문 조사 종료
