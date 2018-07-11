@@ -12,19 +12,22 @@ contract Survey is Ownable {
   uint public categoryIdx;
   uint public reward;
 
-  // 설문 조사 owner만 실행 가능
-  modifier sendReward() {
-    require(answeredUsers(msg.sender) != address(0));
-    require(token.balanceOf(this) >= reward);
-    _;
-    token.transfer(msg.sender, reward);
-  }
 
   string[] internal question; // 질문 목록
   mapping (uint => string[]) internal choice; // 질문 별 보기 목록
   mapping (address => mapping (uint => string)) internal answer; // 사용자의 질문 별 답변
+  mapping (address => bool) internal userExistList;
   address[] internal answeredUsers; // 답변을 등록한 사용자 목록
   mapping (uint => string[]) internal answersPerQuestion; // 질문 별 답변 목록
+
+
+  // 설문 조사 owner만 실행 가능
+  modifier sendReward() {
+    require(!userExistList[msg.sender]);
+    require(token.balanceOf(this) >= reward);
+    _;
+    token.transfer(msg.sender, reward);
+  }
 
   // 생성자
   // SurveyController가 기본 owner로 설정되어서 요청자로 owner를 변경함
@@ -78,6 +81,7 @@ contract Survey is Ownable {
     }
     // 답변 한 사용자 목록에 추가
     answeredUsers.push(msg.sender);
+    userExistList[msg.sender] = true;
   }
 
   // 나머지 토큰 모두 출금
