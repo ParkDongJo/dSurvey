@@ -22,7 +22,7 @@ contract SurveyController is Ownable {
   }
 
   constructor(string[] _categories, address _tokenAddress) public {
-    categories = categories;
+    categories = _categories;
     token = DSurveyToken(_tokenAddress);
   }
 
@@ -55,9 +55,9 @@ contract SurveyController is Ownable {
   )
   public returns(address)
   {
-    require(token.balanceOf(msg.sender) > 0);
+    require(token.balanceOf(msg.sender) >= _totToken);
     address newSurveyAddress = address(new Survey(msg.sender, _categoryIdx, _title, address(token), _reward));
-    require(address(token).delegatecall(bytes4(keccak256("transfer(address, uint256)")), newSurveyAddress, _totToken));
+    token.transferFrom(msg.sender, newSurveyAddress, _totToken);
 
     require(newSurveyAddress != address(0));
     surveyList.push(newSurveyAddress);
