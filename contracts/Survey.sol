@@ -72,4 +72,9 @@ contract Survey is Ownable {
     answeredUsers.push(msg.sender);
   }
 
+  // 나머지 토큰 모두 출금
+  function withdraw() public onlyOwner {
+    token.transfer(msg.sender, token.balanceOf(this));
+  }
+
 }
