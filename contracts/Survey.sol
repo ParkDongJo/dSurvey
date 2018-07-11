@@ -6,12 +6,11 @@ import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownershi
 
 contract Survey is Ownable {
 
-  DSurveyToken public token;
-  string public title;
-  string public imgUrl;
-  uint public categoryIdx;
-  uint public reward;
-
+  DSurveyToken public token; // 토큰 컨트랙트
+  string public title; // 설문조사 제목
+  string public imgUrl; // 설문조사 대표 이미지
+  uint public categoryIdx; // 설문조사 카테고리
+  uint public reward; // 보상 토큰 개수
 
   string[] internal question; // 질문 목록
   mapping (uint => string[]) internal choice; // 질문 별 보기 목록
@@ -30,9 +29,6 @@ contract Survey is Ownable {
   }
 
   // 생성자
-  // SurveyController가 기본 owner로 설정되어서 요청자로 owner를 변경함
-  // 이걸 실행하지 않고 요청자가 owner가 되게 하려면 controller에서 호출 할 때
-  // delegateCall로 생성자를 호출해야 함
   constructor(
     address _newOwner,
     uint _categoryIdx,
