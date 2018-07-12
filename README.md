@@ -48,16 +48,16 @@ Decentralized Survey Service
 
 ## 시나리오
 ### 설문 생성
-* 설문 생성 포인트 충전 : 설문 생성자가 DSurveyToken의 approve를 호출하여 SurveyController에게 토큰 전송 권한을 준다.
-* 설문 컨트랙트 생성 : SurveyController의 createSurvey에 설문 카테고리, 설문 이름, 총 토큰 보상, 참여 당 토큰 보상을 넣어 새로운 설문을 생성한다. 이때 SurveyController가 새로 생성되는 Survey에게 설문 생성자의 토큰을 전송한다.
-* 설문 내용 작성 : 생성 된 Survey의 addQuestionAndChoices를 호출하여 질문과 선택지를 입력한다. (질문 개수 만큼 반복)
-* 설문 시작 : SurveyController의 startSurvey를 호출 해 Survey의 상태를 참여 가능한 상태로 변경한다.
+* **포인트 충전** : 설문 생성자가 DSurveyToken의 approve를 호출하여 SurveyController에게 토큰 전송 권한을 준다.
+* **설문 컨트랙트 생성** : SurveyController의 createSurvey에 설문 카테고리, 설문 이름, 총 토큰 보상, 참여 당 토큰 보상을 넣어 새로운 설문을 생성한다. 이때 SurveyController가 새로 생성되는 Survey에게 설문 생성자의 토큰을 전송한다.
+* **설문 내용 작성** : 생성 된 Survey의 addQuestionAndChoices를 호출하여 질문과 선택지를 입력한다. (질문 개수 만큼 반복)
+* **설문 시작** : SurveyController의 startSurvey를 호출 해 Survey의 상태를 참여 가능한 상태로 변경한다.
 ### 설문 참여
-* SurveyController의 getSurveyList를 호출하여 참여 가능한 설문을 확인한다.
-* 참여 가능한 설문을 선택하고 Survey의 getQuestionAndChoices를 호출하여 설문 내용을 확인한다.
-* Survey의 setAnswers을 호출하여 설문 답변을 등록한다. 작성을 완료하면 설문 생성자가 지정한 양의 토큰을 참여자에게 전송한다.
+* **참여 가능 설문 확인** : SurveyController의 getSurveyList를 호출하여 참여 가능한 설문을 확인한다.
+* **설문 내용 확인** : 참여 가능한 설문을 선택하고 Survey의 getQuestionAndChoices를 호출하여 설문 내용을 확인한다.
+* **답변 작성 및 토큰 보상** : Survey의 setAnswers을 호출하여 설문 답변을 등록한다. 작성을 완료하면 설문 생성자가 지정한 양의 토큰을 참여자에게 전송한다.
 ### 설문 종료
-* 모든 설문이 완료되면 SurveyController의 completeSurvey를 호출하여 설문을 참여할 수 없는 상태로 변경한다.
-* Survey의 withdraw를 호출하면 참여자에게 지급되고 남은 보상 토큰이 설문 생성자에게로 반환된다.
+* **설문 상태 변경** : 모든 설문이 완료되면 SurveyController의 completeSurvey를 호출하여 설문을 참여할 수 없는 상태로 변경한다.
+* **토큰 잔액 반환** : Survey의 withdraw를 호출하면 참여자에게 지급되고 남은 보상 토큰이 설문 생성자에게로 반환된다.
 ### 설문 결과 판매 설정
 ### 설문 결과 구매
