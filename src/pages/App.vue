@@ -17,15 +17,13 @@
 <script>
 import appHeader from '../components/Header.vue'
 import appNav from '../components/Nav.vue'
-import popover from '../components/Popover.vue'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'app',
   components: {
     appHeader,
-    appNav,
-    popover
+    appNav
   },
 
   methods: {

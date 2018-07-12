@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 import * as type from './types'
 import actions from './actions'

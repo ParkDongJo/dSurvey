@@ -20,13 +20,11 @@
 	Vue.component('app-nav')
 </script>
 
-<style lang="sass" scoped>
-	@import '~styles/variables';
+<style scoped>
 
 	nav {
 		ul {
 			list-style: none;
-			padding: $padding;
 			margin: 0;
 
 			li {
@@ -36,12 +34,6 @@
 			a {
 				display: block;
 				padding: 5px;
-
-				&.active {
-					color: black;
-					pointer-events: none;
-					cursor: default;
-				}
 			}
 		}
 	}

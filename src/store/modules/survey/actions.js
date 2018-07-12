@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-import Vue from 'vue'
-import VueResource from 'vue-resource'
+// import Vue from 'vue'
+// import VueResource from 'vue-resource'
 import * as type from './types'
 import { LOCAL_USER } from '../../../constants/index'
 

@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from '@/pages/Dashboard'
-import Signup from '@/pages/Signup'
-import Survey from '@/pages/Survey'
-import AddSurvey from '@/pages/AddSurvey'
+import Dashboard from '../pages/Dashboard'
+import Signup from '../pages/Signup'
+import Survey from '../pages/Survey'
+import AddSurvey from '../pages/AddSurvey'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
+  base: __dirname,
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/',
@@ -28,6 +31,6 @@ export default new Router({
       path: '/survey/add',
       name: 'addSurvey',
       component: AddSurvey
-    },
+    }
   ]
 })
