@@ -61,7 +61,7 @@ contract Survey is Ownable {
   }
 
   // 질문과 선택지 입력
-  function addQuestionAndChoices(string _question, string[] _choices) public {
+  function addQuestionAndChoices(string _question, string[] _choices) public onlyOwner {
     uint256 idx = question.push(_question) - 1;
     for (uint i = 0; i < _choices.length; i++) {
       choice[idx].push(_choices[i]);
