@@ -1,11 +1,12 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
+import "./SurveyController.sol";
 import "./DSurveyToken.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Survey is Ownable {
-
+  SurveyController public controller; // 설문 컨트롤러
   DSurveyToken public token; // 토큰 컨트랙트
   string public title; // 설문조사 제목
   string public imgUrl; // 설문조사 대표 이미지
@@ -30,6 +31,7 @@ contract Survey is Ownable {
 
   // 생성자
   constructor(
+    address _controller,
     address _newOwner,
     uint _categoryIdx,
     string _title,
@@ -39,10 +41,16 @@ contract Survey is Ownable {
   public
   {
     transferOwnership(_newOwner);
+    controller = SurveyController(_controller);
     categoryIdx = _categoryIdx;
     title = _title;
     token = DSurveyToken(_token);
     reward = _reward;
+  }
+
+  // 답변한 사람 목록에 있는지 체크
+  function getUserExist(address _userAddress) view public returns(bool) {
+    return userExistList[_userAddress];
   }
 
   // 답변을 등록한 사용자 목록
@@ -51,7 +59,7 @@ contract Survey is Ownable {
   }
 
   // 질문 당 사용자들이 등록한 답변 목록
-  function getAnswersPerQuestion(uint _idx) view public returns(string[]) {
+  function getAnswersPerQuestion(uint _idx) view public onlyOwner returns(string[]) {
     return answersPerQuestion[_idx];
   }
 
@@ -78,6 +86,9 @@ contract Survey is Ownable {
     // 답변 한 사용자 목록에 추가
     answeredUsers.push(msg.sender);
     userExistList[msg.sender] = true;
+
+    // 컨트롤러의 사용자별 답변 설문 리스트에 추가
+    controller.addAnsweredSurvey(msg.sender, this);
   }
 
   // 나머지 토큰 모두 출금
