@@ -67,7 +67,7 @@ contract SurveyController is Ownable {
   )
   public returns(address)
   {
-    require(token.balanceOf(msg.sender) >= _totToken);
+    require(token.allowance(msg.sender, this) >= _totToken);
     address newSurveyAddress = address(new Survey(this, msg.sender, _categoryIdx, _title, address(token), _reward));
     token.transferFrom(msg.sender, newSurveyAddress, _totToken);
 
