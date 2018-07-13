@@ -30,6 +30,12 @@ contract Survey is Ownable {
     token.transfer(msg.sender, reward);
   }
 
+  // 소유자 혹은 구매자만
+  modifier onlyOwnerAndBuyer() {
+    require(msg.sender == owner || isBoughtUser[msg.sender]);
+    _;
+  }
+
   // 생성자
   constructor(
     address _controller,
@@ -50,12 +56,12 @@ contract Survey is Ownable {
   }
 
   // 답변을 등록한 사용자 목록
-  function getAnsweredUsers() view public returns(address[]) {
+  function getAnsweredUsers() view public onlyOwnerAndBuyer returns(address[]) {
     return answeredUsers;
   }
 
   // 질문 당 사용자들이 등록한 답변 목록
-  function getAnswersPerQuestion(uint _idx) view public onlyOwner returns(string[]) {
+  function getAnswersPerQuestion(uint _idx) view public onlyOwnerAndBuyer returns(string[]) {
     return answersPerQuestion[_idx];
   }
 
