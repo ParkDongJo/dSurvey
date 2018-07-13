@@ -107,7 +107,14 @@ contract SurveyController is Ownable {
   // 답변한 설문 추가
   function addAnsweredSurvey(address _userAddress, address _surveyAddress) public {
     Survey survey = Survey(_surveyAddress);
-    require(survey.getUserExist(_userAddress));
+    require(survey.isAnsweredUser(_userAddress));
     answeredSurveyList[_userAddress].push(_surveyAddress);
+  }
+
+  // 구매한 설문 추가
+  function addBoughtSurvey(address _userAddress, address _surveyAddress) public {
+    Survey survey = Survey(_surveyAddress);
+    require(survey.isBoughtUser(_userAddress));
+    boughtSurveyList[_userAddress].push(_surveyAddress);
   }
 }
