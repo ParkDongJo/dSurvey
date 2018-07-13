@@ -36,6 +36,18 @@ contract Survey is Ownable, SurveyBase {
     _;
   }
 
+  // 진행 중인 설문만
+  modifier onlyIng(address _surveyAddress) {
+    require(Status(controller.getSurveyStatus(_surveyAddress)) == Status.Ing);
+    _;
+  }
+
+  // 판매 중인 설문만
+  modifier onlyOnSale(address _surveyAddress) {
+    require(Status(controller.getSurveyStatus(_surveyAddress)) == Status.OnSale);
+    _;
+  }
+
   // 생성자
   constructor(
     address _controller,
