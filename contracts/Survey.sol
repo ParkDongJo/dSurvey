@@ -35,7 +35,7 @@ contract Survey is Ownable, SurveyBase {
     require(msg.sender == owner || isBoughtUser[msg.sender]);
     _;
   }
-
+  
   // 준비 중인 설문만
   modifier onlyPrepare(address _surveyAddress) {
     require(Status(controller.getSurveyStatus(_surveyAddress)) == Status.Prepare);
