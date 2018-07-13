@@ -16,14 +16,15 @@ contract Survey is Ownable {
   string[] internal question; // 질문 목록
   mapping (uint => string[]) internal choice; // 질문 별 보기 목록
   mapping (address => mapping (uint => string)) internal answer; // 사용자의 질문 별 답변
-  mapping (address => bool) internal userExistList;
+  mapping (address => bool) public isAnsweredUser; // 답변을 등록한 사용자 인지 확인
+  mapping (address => bool) public isBoughtUser; // 설문을 구매한 사용자 인지 확인
   address[] internal answeredUsers; // 답변을 등록한 사용자 목록
   mapping (uint => string[]) internal answersPerQuestion; // 질문 별 답변 목록
 
 
   // 설문 조사 owner만 실행 가능
   modifier sendReward() {
-    require(!userExistList[msg.sender]);
+    require(!isAnsweredUser[msg.sender]);
     require(token.balanceOf(this) >= reward);
     _;
     token.transfer(msg.sender, reward);
@@ -46,11 +47,6 @@ contract Survey is Ownable {
     title = _title;
     token = DSurveyToken(_token);
     reward = _reward;
-  }
-
-  // 답변한 사람 목록에 있는지 체크
-  function getUserExist(address _userAddress) view public returns(bool) {
-    return userExistList[_userAddress];
   }
 
   // 답변을 등록한 사용자 목록
@@ -85,7 +81,7 @@ contract Survey is Ownable {
     }
     // 답변 한 사용자 목록에 추가
     answeredUsers.push(msg.sender);
-    userExistList[msg.sender] = true;
+    isAnsweredUser[msg.sender] = true;
 
     // 컨트롤러의 사용자별 답변 설문 리스트에 추가
     controller.addAnsweredSurvey(msg.sender, this);
