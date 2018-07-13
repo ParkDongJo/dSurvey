@@ -1,15 +1,13 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
+import "./SurveyBase.sol";
 import "./Survey.sol";
 import "./DSurveyToken.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract SurveyController is Ownable {
+contract SurveyController is Ownable, SurveyBase {
 
-  enum Status {Prepare, Ing, Complete, OnSale}
-
-  DSurveyToken public token; // 토큰 컨트랙트
   string[] internal categories; // 설문 카테고리
   address[] internal surveyList; // 모든 설문 목록
   mapping (address => Status) internal surveyStatus; // 모든 설문 상태
