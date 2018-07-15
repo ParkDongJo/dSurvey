@@ -4,9 +4,10 @@ pragma experimental ABIEncoderV2;
 import "./SurveyBase.sol";
 import "./SurveyController.sol";
 import "./DSurveyToken.sol";
+import "./DSurveyTokenReceiver.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract Survey is Ownable, SurveyBase {
+contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
   SurveyController public controller; // 설문 컨트롤러
   string public title; // 설문조사 제목
   string public imgUrl; // 설문조사 대표 이미지
@@ -36,7 +37,7 @@ contract Survey is Ownable, SurveyBase {
     require(msg.sender == owner || isBoughtUser[msg.sender]);
     _;
   }
-  
+
   // 준비 중인 설문만
   modifier onlyPrepare(address _surveyAddress) {
     require(Status(controller.getSurveyStatus(_surveyAddress)) == Status.Prepare);
@@ -134,17 +135,24 @@ contract Survey is Ownable, SurveyBase {
   }
 
   // 설문지 구매
-  function buySurvey() public {
-    require(!buyerList[msg.sender]);
-    require(token.balanceOf(msg.sender) > _value);
-
-    buyerList[msg.sender] = true;
+  function buySurvey(address _from, uint _value) public {
+    require(!isBoughtUser[_from]);
 
     uint value = calcSurveyPrice();
+    require(_value > value);
 
-    token.transfer(this, );
-
+    isBoughtUser[_from] = true;
   }
 
+
+  function onDSurveyTokenReceived (
+    address _from,
+    uint _value
+  )
+  public returns(bytes4)
+  {
+    buySurvey(_from, _value);
+    return DSURVEY_TOKEN_RECEIVED;
+  }
 
 }
