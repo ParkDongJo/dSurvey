@@ -20,7 +20,7 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
   mapping (address => bool) public isAnsweredUser; // 답변을 등록한 사용자 인지 확인
   mapping (address => bool) public isBoughtUser; // 설문을 구매한 사용자 인지 확인
   address[] internal answeredUsers; // 답변을 등록한 사용자 목록
-  mapping (address => bool) internal buyerList;
+  address[] internal bougtUsers;    // 구매자 목록
   mapping (uint => string[]) internal answersPerQuestion; // 질문 별 답변 목록
 
 
@@ -87,7 +87,7 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
 
   // 참여자 수
   function getAnsweredUsersNum() view public returns(uint) {
-    return answeredUsers.length();
+    return answeredUsers.length;
   }
 
   // 토큰 잔액
@@ -97,6 +97,13 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
 
   // 설문지 가격
   function calcSurveyPrice() view public returns(uint) {
+
+    // answeredUsers 참여자 수
+    // bougtUsers 구매수
+
+
+
+
     // 참여자 와 판매수
     return reward;
   }
@@ -142,6 +149,7 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
     require(_value > value);
 
     isBoughtUser[_from] = true;
+    bougtUsers.push(_from);
   }
 
 
