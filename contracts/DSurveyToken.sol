@@ -42,7 +42,7 @@ contract DSurveyToken is StandardBurnableToken, CappedToken, PausableToken {
     emit Transfer(0x0, msg.sender, INITIAL_SUPPLY);
   }
 
-  function safeTransfer(address _to, uint256 _value) public returns (bool) {
+  function safeTransfer(address _to, uint256 _value) public {
     transfer(_to, _value);
     require(checkAndCallSafeTransfer(_to, _value));
   }

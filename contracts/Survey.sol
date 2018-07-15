@@ -87,7 +87,7 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
 
   // 참여자 수
   function getAnsweredUsersNum() view public returns(uint) {
-    return answeredUsers.length();
+    return answeredUsers.length;
   }
 
   // 토큰 잔액
@@ -143,7 +143,6 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
 
     isBoughtUser[_from] = true;
   }
-
 
   function onDSurveyTokenReceived (
     address _from,
