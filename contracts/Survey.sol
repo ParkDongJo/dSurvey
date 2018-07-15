@@ -152,7 +152,6 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
     bougtUsers.push(_from);
   }
 
-
   function onDSurveyTokenReceived (
     address _from,
     uint _value
