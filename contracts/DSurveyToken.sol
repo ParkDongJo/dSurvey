@@ -12,6 +12,8 @@ import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/token/ER
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/AddressUtils.sol";
+import "./DSurveyTokenReceiver.sol";
 
 /**
  * @title SimpleToken
@@ -20,6 +22,9 @@ import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownershi
  * `StandardToken` functions.
  */
 contract DSurveyToken is StandardBurnableToken, CappedToken, PausableToken {
+  using AddressUtils for address;
+
+  bytes4 internal constant DSURVEY_TOKEN_RECEIVED = 0x3eed4dd4;
 
   string public constant name = "dSurveyToken"; // solium-disable-line uppercase
   string public constant symbol = "DST"; // solium-disable-line uppercase
@@ -35,5 +40,24 @@ contract DSurveyToken is StandardBurnableToken, CappedToken, PausableToken {
     totalSupply_ = INITIAL_SUPPLY;
     balances[msg.sender] = INITIAL_SUPPLY;
     emit Transfer(0x0, msg.sender, INITIAL_SUPPLY);
+  }
+
+  function safeTransfer(address _to, uint256 _value) public returns (bool) {
+    transfer(_to, _value);
+    require(checkAndCallSafeTransfer(_to, _value));
+  }
+
+  function checkAndCallSafeTransfer(
+    address _to,
+    uint256 _value
+  )
+  internal
+  returns (bool)
+  {
+    if (!_to.isContract()) {
+      return true;
+    }
+    bytes4 retval = DSurveyTokenReceiver(_to).onDSurveyTokenReceived(msg.sender, _value);
+    return (retval == DSURVEY_TOKEN_RECEIVED);
   }
 }
