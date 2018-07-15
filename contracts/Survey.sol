@@ -139,11 +139,11 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
     require(!isBoughtUser[_from]);
 
     uint value = calcSurveyPrice();
-    require(_value > value);
+    require(_value == value);
 
     isBoughtUser[_from] = true;
   }
-
+  
   function onDSurveyTokenReceived (
     address _from,
     uint _value
