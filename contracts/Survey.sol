@@ -17,6 +17,7 @@ contract Survey is Ownable {
   mapping (address => mapping (uint => string)) internal answer; // 사용자의 질문 별 답변
   mapping (address => bool) internal userExistList;
   address[] internal answeredUsers; // 답변을 등록한 사용자 목록
+  mapping (address => bool) internal buyerList;
   mapping (uint => string[]) internal answersPerQuestion; // 질문 별 답변 목록
 
 
@@ -55,6 +56,22 @@ contract Survey is Ownable {
     return answersPerQuestion[_idx];
   }
 
+  // 참여자 수
+  function getAnsweredUsersNum() view public returns(uint) {
+    return answeredUsers.length();
+  }
+
+  // 토큰 잔액
+  function getTokenState() view public returns(uint) {
+    return token.balanceOf(this);
+  }
+
+  // 설문지 가격
+  function calcSurveyPrice() view public returns(uint) {
+    // 참여자 와 판매수
+
+  }
+
   // 전체 내용 출력
   function getQuestionAndChoices(uint _idx) view public returns(string, string[]){
     return (question[_idx], choice[_idx]);
@@ -84,5 +101,19 @@ contract Survey is Ownable {
   function withdraw() public onlyOwner {
     token.transfer(msg.sender, token.balanceOf(this));
   }
+
+  // 설문지 구매
+  function buySurvey() public {
+    require(!buyerList[msg.sender]);
+    require(token.balanceOf(msg.sender) > _value);
+
+    buyerList[msg.sender] = true;
+
+    uint value = calcSurveyPrice();
+
+    token.transfer(this, );
+
+  }
+
 
 }
