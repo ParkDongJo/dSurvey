@@ -98,7 +98,7 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
   // 설문지 가격
   function calcSurveyPrice() view public returns(uint) {
     // 참여자 와 판매수
-
+    return reward;
   }
 
   // 전체 내용 출력
