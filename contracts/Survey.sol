@@ -144,8 +144,11 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
     require(_value == value);
 
     isBoughtUser[_from] = true;
+
+    // 컨트롤러의 사용자별 구매 설문 리스트에 추가
+    controller.addBoughtSurvey(msg.sender, this);
   }
-  
+
   function onDSurveyTokenReceived (
     address _from,
     uint _value
