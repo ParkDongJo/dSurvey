@@ -15,6 +15,28 @@ contract SurveyController is Ownable, SurveyBase {
   mapping (address => address[]) internal answeredSurveyList; // 사용자 별 답변한 설문 목록
   mapping (address => address[]) internal boughtSurveyList; // 사용자 별 구매한 설문 목록
 
+  // 설문 액션(생성, 답변, 구매) 이벤트
+  event DoSurveyAction(
+    string indexed _title,
+    address indexed _ownerAddress,
+    address _surveyAddress,
+    uint8 indexed _action
+  );
+
+  // 설문 상태 변화 이벤트
+  event ChangeSurveyStatus(
+    address indexed _surveyAddress,
+    uint8 indexed _beforeStatus,
+    uint8 indexed _afterStatus
+  );
+
+  // 설문 카테고리 추가 이벤트
+  event AddCategory(
+    string indexed _newCategory
+  );
+
+
+
   // 설문 조사 owner만 실행 가능
   modifier onlySurveyOwner(address _surveyAddress) {
     require(msg.sender == Survey(_surveyAddress).owner());
@@ -76,6 +98,8 @@ contract SurveyController is Ownable, SurveyBase {
     require(msg.sender != address(0));
     ownedSurveyList[msg.sender].push(newSurveyAddress);
 
+    emit DoSurveyAction(_title, msg.sender, newSurveyAddress, uint8(Action.Owned));
+
     return newSurveyAddress;
   }
 
@@ -83,23 +107,39 @@ contract SurveyController is Ownable, SurveyBase {
   function startSurvey(address _surveyAddress) public onlySurveyOwner(_surveyAddress) {
     require(surveyStatus[_surveyAddress] == Status.Prepare);
     surveyStatus[_surveyAddress] = Status.Ing;
+
+    emit ChangeSurveyStatus(_surveyAddress, uint8(Status.Prepare), uint8(Status.Ing));
   }
 
   // 설문 조사 종료
   function completeSurvey(address _surveyAddress) public onlySurveyOwner(_surveyAddress) {
     require(surveyStatus[_surveyAddress] == Status.Ing);
     surveyStatus[_surveyAddress] = Status.Complete;
+
+    emit ChangeSurveyStatus(_surveyAddress, uint8(Status.Ing), uint8(Status.Complete));
+  }
+
+  // 설문 조사 종료 후 판매
+  function completeAndSellSurvey(address _surveyAddress) public onlySurveyOwner(_surveyAddress) {
+    require(surveyStatus[_surveyAddress] == Status.Ing);
+    surveyStatus[_surveyAddress] = Status.OnSale;
+
+    emit ChangeSurveyStatus(_surveyAddress, uint8(Status.Ing), uint8(Status.OnSale));
   }
 
   // 설문 조사 판매
   function sellSurvey(address _surveyAddress) public onlySurveyOwner(_surveyAddress) {
     require(surveyStatus[_surveyAddress] == Status.Complete);
     surveyStatus[_surveyAddress] = Status.OnSale;
+
+    emit ChangeSurveyStatus(_surveyAddress, uint8(Status.Complete), uint8(Status.OnSale));
   }
 
   // 카테고리 추가
   function addCategory(string _newCategory) public onlyOwner {
     categories.push(_newCategory);
+
+    emit AddCategory(_newCategory);
   }
 
   // 답변한 설문 추가
@@ -107,6 +147,8 @@ contract SurveyController is Ownable, SurveyBase {
     Survey survey = Survey(_surveyAddress);
     require(survey.isAnsweredUser(_userAddress));
     answeredSurveyList[_userAddress].push(_surveyAddress);
+
+    emit DoSurveyAction(survey.title(), _userAddress, _surveyAddress, uint8(Action.Answered));
   }
 
   // 구매한 설문 추가
@@ -114,5 +156,6 @@ contract SurveyController is Ownable, SurveyBase {
     Survey survey = Survey(_surveyAddress);
     require(survey.isBoughtUser(_userAddress));
     boughtSurveyList[_userAddress].push(_surveyAddress);
+    emit DoSurveyAction(survey.title(), _userAddress, _surveyAddress, uint8(Action.Bought));
   }
 }
