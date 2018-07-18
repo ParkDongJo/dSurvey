@@ -34,9 +34,7 @@ contract SurveyController is Ownable, SurveyBase {
   event AddCategory(
     string indexed _newCategory
   );
-
-
-
+  
   // 설문 조사 owner만 실행 가능
   modifier onlySurveyOwner(address _surveyAddress) {
     require(msg.sender == Survey(_surveyAddress).owner());
