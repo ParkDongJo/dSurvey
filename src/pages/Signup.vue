@@ -12,34 +12,34 @@
 </template>
 
 <script>
-  // import Users from '../js/users'
+import Users from '../js/users'
 
-  export default {
-    name: 'signup',
-    // data () {
-    //   return {
-    //     form: {
-    //       pseudo: undefined
-    //     }
-    //   }
-    // },
-    // beforeCreate: function () {
-    //   Users.init()
-    // },
-    // methods: {
-    //   signup: function () {
-    //     let self = this
-    //     if (typeof this.form.pseudo !== 'undefined' && this.form.pseudo !== '') {
-    //       Users.create(this.form.pseudo).then(tx => {
-    //         console.log(tx)
-    //         self.$router.push('/')
-    //       }).catch(err => {
-    //         console.log(err)
-    //       })
-    //     }
-    //   }
-    // }
+export default {
+  name: 'signup',
+  data () {
+    return {
+      form: {
+        pseudo: undefined
+      }
+    }
+  },
+  beforeCreate: function () {
+    Users.init()
+  },
+  methods: {
+    signup: function () {
+      let self = this
+      if (typeof this.form.pseudo !== 'undefined' && this.form.pseudo !== '') {
+        Users.create(this.form.pseudo).then(tx => {
+          console.log(tx)
+          self.$router.push('/')
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -64,11 +64,7 @@
         button {
           margin-left: 20px
         }
-
       }
-
     }
-
   }
-
 </style>

@@ -32,7 +32,7 @@ export default {
     ])
   },
 
-  created(){
+  created () {
     this.getUser()
   }
 }
