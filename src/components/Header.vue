@@ -5,14 +5,14 @@
 </template>
 
 <script type="text/babel">
-import Vue from 'vue'
-import { mapGetters } from 'vuex'
+	import Vue from 'vue'
+	import { mapGetters } from 'vuex'
 
-export default Vue.component('app-header', {
-  computed: {
-    ...mapGetters([
-      'fullName'
-    ])
-  }
-})
+	export default Vue.component('app-header', {
+		computed: {
+			...mapGetters([
+				'fullName'
+			])
+		}
+	})
 </script>

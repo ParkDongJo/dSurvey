@@ -14,9 +14,9 @@ Vue.config.debug = true
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
-  modules: {
-    survey
-  },
-  strict: false,
-  middlewares: debug ? [createLogger()] : []
+	modules: {
+		survey
+	},
+	strict: false,
+	middlewares: debug ? [createLogger()] : []
 })
