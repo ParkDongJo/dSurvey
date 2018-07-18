@@ -27,6 +27,23 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
   mapping (uint => string[]) internal answersPerQuestion; // 질문 별 답변 목록
 
 
+  event AddQuestionAndChoices(
+    address indexed _survey,
+    uint256 indexed _questionIdx
+  );
+
+  event SetAnswers(
+    address indexed _survey,
+    uint256 indexed _from,
+    string[] _answers
+  );
+
+  event BuySurvey(
+    adderess indexed _survey,
+    adderess indexed _from,
+    uint256 _value
+  );
+
   // 설문 조사 owner만 실행 가능
   modifier sendReward() {
     require(!isAnsweredUser[msg.sender]);
@@ -114,6 +131,8 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
     for (uint i = 0; i < _choices.length; i++) {
       choice[idx].push(_choices[i]);
     }
+
+    emit AddQuestionAndChoices(this, idx);
   }
 
   // 답변 등록
@@ -129,6 +148,8 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
 
     // 컨트롤러의 사용자별 답변 설문 리스트에 추가
     controller.addAnsweredSurvey(msg.sender, this);
+
+    emit SetAnswers(this, msg.sender, _answers);
   }
 
   // 나머지 토큰 모두 출금
@@ -137,18 +158,21 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
   }
 
   // 설문지 구매
-  function buySurvey(address _from, uint _value) public {
-    require(!isBoughtUser[_from]);
+  function buySurvey(uint _value) public {
+    require(!isBoughtUser[msg.sender]);
 
     uint value = calcSurveyPrice();
     require(_value == value);
 
-    isBoughtUser[_from] = true;
+    isBoughtUser[msg.sender] = true;
 
     // 컨트롤러의 사용자별 구매 설문 리스트에 추가
     controller.addBoughtSurvey(msg.sender, this);
+
+    emit BuySurvey(this, msg.sender, _value);
   }
 
+  // 토큰 전송 리시버
   function onDSurveyTokenReceived (
     address _from,
     uint _value
