@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import HelloMetamask from '@/components/hello-metamask'
+import HelloMetamask from '@/pages/hello-metamask'
 export default {
   name: 'casino-dapp',
   beforeCreate () {
