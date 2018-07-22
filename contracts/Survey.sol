@@ -5,8 +5,11 @@ import "./SurveyBase.sol";
 import "./SurveyController.sol";
 import "./DSurveyToken.sol";
 import "./DSurveyTokenReceiver.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/math/SafeMath.sol";
+//import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+//import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/math/SafeMath.sol";
+
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
 
@@ -34,13 +37,13 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
 
   event SetAnswers(
     address indexed _survey,
-    uint256 indexed _from,
+    address indexed _from,
     string[] _answers
   );
 
   event BuySurvey(
-    adderess indexed _survey,
-    adderess indexed _from,
+    address indexed _survey,
+    address indexed _from,
     uint256 _value
   );
 
@@ -158,18 +161,18 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
   }
 
   // 설문지 구매
-  function buySurvey(uint _value) public {
-    require(!isBoughtUser[msg.sender]);
+  function buySurvey(address _buyer, uint _value) public {
+    require(!isBoughtUser[_buyer]);
 
     uint value = calcSurveyPrice();
     require(_value == value);
 
-    isBoughtUser[msg.sender] = true;
+    isBoughtUser[_buyer] = true;
 
     // 컨트롤러의 사용자별 구매 설문 리스트에 추가
-    controller.addBoughtSurvey(msg.sender, this);
+    controller.addBoughtSurvey(_buyer, this);
 
-    emit BuySurvey(this, msg.sender, _value);
+    emit BuySurvey(this, _buyer, _value);
   }
 
   // 토큰 전송 리시버

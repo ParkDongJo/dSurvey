@@ -4,7 +4,9 @@ pragma experimental ABIEncoderV2;
 import "./SurveyBase.sol";
 import "./Survey.sol";
 import "./DSurveyToken.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+//import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract SurveyController is Ownable, SurveyBase {
 
@@ -34,7 +36,7 @@ contract SurveyController is Ownable, SurveyBase {
   event AddCategory(
     string indexed _newCategory
   );
-  
+
   // 설문 조사 owner만 실행 가능
   modifier onlySurveyOwner(address _surveyAddress) {
     require(msg.sender == Survey(_surveyAddress).owner());
