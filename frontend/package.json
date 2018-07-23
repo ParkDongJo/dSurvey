@@ -16,12 +16,13 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "font-awesome": "^4.7.0",
     "truffle-contract": "^3.0.0",
     "vue": "^2.4.2",
+    "vue-resource": "^1.2.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vue-resource": "^1.2.0",
-    "font-awesome": "^4.7.0",
     "web3": "^0.20.6"
   },
   "devDependencies": {

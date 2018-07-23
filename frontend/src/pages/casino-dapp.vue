@@ -24,6 +24,10 @@
 </template>
 
 <script>
+<<<<<<< HEAD:src/pages/casino-dapp.vue
+=======
+import HelloMetamask from '@/pages/hello-metamask'
+>>>>>>> 8fbf208a173d23374b51b07cdc8c1198279aba2d:frontend/src/pages/casino-dapp.vue
 export default {
   name: 'casino-dapp',
   beforeCreate () {
