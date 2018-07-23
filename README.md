@@ -2,15 +2,23 @@
 Decentralized Survey Service
 
 ## 실행
-* cd frontend
-* npm run build
+### Frontend build
+```
+cd frontend
+npm run build
+```
 
-* cd ../backend
-* ./run-server.sh
+### Run backend server
+```
+cd ../backend
+./run-server.sh
+```
 
-* **forever 프로세서 확인**
-* forever list
-* forever stop [pid]
+### forever (express 서버를 daemon으로 돌려 줌)
+* 프로세스 리스트 확인
+`forever list`
+* 프로세스 종료
+`forever stop [pid]`
 
 ## 컨트랙트 구조
 ### DSurveyToken
