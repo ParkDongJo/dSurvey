@@ -16,8 +16,10 @@ cd ../backend
 
 ### forever (express 서버를 daemon으로 돌려 줌)
 * 프로세스 리스트 확인
+
 `forever list`
 * 프로세스 종료
+
 `forever stop [pid]`
 
 ## 컨트랙트 구조
