@@ -7,7 +7,9 @@ let state = {
     balance: null,
     error: null
   },
-  contractInstance: null
+  surveyCtrlInstance: null,
+  surveyInstance: null,
+  walletInstance: null
 }
 
 export default state

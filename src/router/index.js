@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import CasinoDapp from '@/pages/casino-dapp'
-
+import BootstrapVue from 'bootstrap-vue'
+// import CasinoDapp from '@/pages/casino-dapp'
+import TokenSale from '@/pages/d-survey-token-sale'
 
 Vue.use(Router)
+Vue.use(BootstrapVue)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'casino-dapp',
-      component: CasinoDapp
+      name: 'token-sale',
+      component: TokenSale
     }
   ]
 })

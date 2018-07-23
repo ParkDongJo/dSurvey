@@ -3,7 +3,9 @@ import Vuex from 'vuex'
 import state from './state'
 import getWeb3 from '../util/getWeb3'
 import pollWeb3 from '../util/pollWeb3'
-import getContract from '../util/getContract'
+import SurveyController from '../util/js/surveyController'
+import Survey from '../util/js/survey'
+import Wallet from '../util/js/wallet'
 
 Vue.use(Vuex)
 
@@ -28,9 +30,19 @@ export const store = new Vuex.Store({
       state.web3.coinbase = payload.coinbase
       state.web3.balance = parseInt(payload.balance, 10)
     },
-    registerContractInstance (state, payload) {
-      console.log('Casino contract instance: ', payload)
-      state.contractInstance = () => payload
+
+    // 컨트렉트 인스턴스 등록
+    registerSurveyCtrlInstance (state, payload) {
+      console.log('Survey ctrl contract instance: ', payload)
+      state.surveyCtrlInstance = () => payload
+    },
+    registerSurveyContract (state, payload) {
+      console.log('Survey contract instance: ', payload)
+      state.surveyInstance = () => payload
+    },
+    registerWalletInstance (state, payload) {
+      console.log('Wallet contract instance: ', payload)
+      state.walletInstance = () => payload
     }
   },
   actions: {
@@ -47,9 +59,26 @@ export const store = new Vuex.Store({
       console.log('pollWeb3 Action being executed')
       commit('pollWeb3Instance', payload)
     },
-    getContractInstance ({commit}) {
-      getContract.then(result => {
-        commit('registerContractInstance', result)
+
+    // 컨트렉트 인스턴스 가져오기
+    // 설문컨트롤러
+    getSurveyCtrlIns ({commit}) {
+      SurveyController.init().then(result => {
+        commit('registerSurveyCtrlInstance', result)
+      }).catch(e => console.log(e))
+    },
+    // 설문
+    getSurvey ({commit}, payload) {
+      Survey.create(payload.at).then(result => {
+        commit('registerSurveyContract', result)
+      }).catch(e => console.log(e))
+    },
+    // 토큰
+    getWallet ({commit}) {
+      Wallet.init().then(result => {
+        console.log('commit registerTokenInstance')
+        console.log('result : ', result)
+        commit('registerWalletInstance', result)
       }).catch(e => console.log(e))
     }
   }
