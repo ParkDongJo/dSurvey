@@ -2,15 +2,15 @@
 Decentralized Survey Service
 
 ## 실행
-cd frontend
-npm run build
+* cd frontend
+* npm run build
 
-cd ../backend
-./run-server.sh
+* cd ../backend
+* ./run-server.sh
 
-* forever 프로세서 확인
-forever list
-forever stop [pid]
+* **forever 프로세서 확인**
+* forever list
+* forever stop [pid]
 
 ## 컨트랙트 구조
 ### DSurveyToken
