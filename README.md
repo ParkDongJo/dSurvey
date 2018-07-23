@@ -1,6 +1,17 @@
 # dSurvey
 Decentralized Survey Service
 
+## 실행
+cd frontend
+npm run build
+
+cd ../backend
+./run-server.sh
+
+* forever 프로세서 확인
+forever list
+forever stop [pid]
+
 ## 컨트랙트 구조
 ### DSurveyToken
 * ERC20 기반 토큰
