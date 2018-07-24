@@ -1,6 +1,27 @@
 # dSurvey
 Decentralized Survey Service
 
+## 실행
+### Frontend build
+```
+cd frontend
+npm run build
+```
+
+### Run backend server
+```
+cd ../backend
+./run-server.sh
+```
+
+### forever (express 서버를 daemon으로 돌려 줌)
+* 프로세스 리스트 확인
+
+`forever list`
+* 프로세스 종료
+
+`forever stop [pid]`
+
 ## 컨트랙트 구조
 ### DSurveyToken
 * ERC20 기반 토큰
