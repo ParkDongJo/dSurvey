@@ -1,5 +1,6 @@
 import contract from 'truffle-contract'
 import TokenContract from '@contracts/DSurveyToken.json'
+import {BigNumber} from 'bignumber.js'
 
 const Wallet = {
 
@@ -46,64 +47,64 @@ const Wallet = {
       })
     })
   },
-  // callTransfer: function (to, value) {
-  //   let self = this
-  //
-  //   return new Promise((resolve, reject) => {
-  //     self.instance.transfer(
-  //       to,
-  //       value,
-  //       {
-  //         from: to,
-  //         gasPrice: BigNumber(30000).multipliedBy(1000000000)
-  //       }
-  //     ).then(result => {
-  //       console.log(result)
-  //       resolve(result)
-  //     }).catch(err => {
-  //       reject(err)
-  //     })
-  //   })
-  // },
-  // callTransferFrom: function (to, from, value) {
-  //   let self = this
-  //
-  //   return new Promise((resolve, reject) => {
-  //     self.instance.transferFrom.call(
-  //       to,
-  //       from,
-  //       value,
-  //       {
-  //         from: to,
-  //         gasPrice: BigNumber(30000).multipliedBy(1000000000)
-  //       }
-  //     ).then(result => {
-  //       console.log(result)
-  //       resolve(result)
-  //     }).catch(err => {
-  //       reject(err)
-  //     })
-  //   })
-  // },
-  // callApprove: function (to, value) {
-  //   let self = this
-  //
-  //   return new Promise((resolve, reject) => {
-  //     self.instance.approve(
-  //       to,
-  //       value,
-  //       {
-  //         from: to,
-  //         gasPrice: BigNumber(30000).multipliedBy(1000000000)
-  //       }
-  //     ).then(result => {
-  //       console.log(result)
-  //       resolve(result)
-  //     }).catch(err => {
-  //       reject(err)
-  //     })
-  //   })
-  // },
+  callTransfer: function (to, value) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.transfer(
+        to,
+        value,
+        {
+          from: to,
+          gasPrice: BigNumber(30000).multipliedBy(1000000000)
+        }
+      ).then(result => {
+        console.log(result)
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+  callTransferFrom: function (to, from, value) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.transferFrom.call(
+        to,
+        from,
+        value,
+        {
+          from: to,
+          gasPrice: BigNumber(30000).multipliedBy(1000000000)
+        }
+      ).then(result => {
+        console.log(result)
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+  callApprove: function (to, value) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.approve(
+        to,
+        value,
+        {
+          from: to,
+          gasPrice: BigNumber(30000).multipliedBy(1000000000)
+        }
+      ).then(result => {
+        console.log(result)
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
   callSafeTransfer: function () {
 
   }

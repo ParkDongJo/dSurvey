@@ -16,3 +16,4 @@ new Vue({
   template: '<App/>'
 })
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bignumber.js/bignumber.min.js"></script>

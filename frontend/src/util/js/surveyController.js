@@ -1,5 +1,5 @@
-// import contract from 'truffle-contract'
-// import SurveyCtrlContract from '@contracts/SurveyController.json'
+import contract from 'truffle-contract'
+import SurveyCtrlContract from '@contracts/SurveyController.json'
 
 const SurveyController = {
 
@@ -7,20 +7,19 @@ const SurveyController = {
   instance: null,
 
   init: function () {
-    // let self = this
+    let self = this
 
-    // return new Promise(function (resolve, reject) {
-    //   self.contract = contract(SurveyCtrlContract)
-    //   self.contract.setProvider(window.web3.currentProvider)
-    //
-    //   self.contract.deployed().then(instance => {
-    //     self.instance = instance
-    //     resolve(self.instance)
-    //   }).catch(err => {
-    //     reject(err)
-    //   })
-    //
-    // })
+    return new Promise(function (resolve, reject) {
+      self.contract = contract(SurveyCtrlContract)
+      self.contract.setProvider(window.web3.currentProvider)
+
+      self.contract.deployed().then(instance => {
+        self.instance = instance
+        resolve(self.instance)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
   getSurveyList: function () {
     // let self = this
