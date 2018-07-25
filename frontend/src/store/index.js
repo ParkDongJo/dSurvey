@@ -72,5 +72,10 @@ export const store = new Vuex.Store({
         commit('registerWalletInstance', result)
       }).catch(e => console.log(e))
     }
+  },
+  getters: {
+    getAppTitle: () => {
+      return state.app.title
+    }
   }
 })

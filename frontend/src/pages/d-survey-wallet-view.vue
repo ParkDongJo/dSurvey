@@ -1,13 +1,9 @@
 <template>
   <div>
-    <b-form-input v-model="text"
-                  type="text"
-                  placeholder="Enter your name"></b-form-input>
-    <p>Text: {{ text }}</p>
-    <p>Value: {{ value }}</p>
-    <p>
-      <b-button v-on:click="getBalance">I am a Button</b-button>
-    </p>
+    <p>Token: {{ value }}</p>
+    <!--<p>-->
+      <!--<b-button v-on:click="getBalance">I am a Button</b-button>-->
+    <!--</p>-->
   </div>
 </template>
 <script>
@@ -15,7 +11,6 @@ export default {
   name: 'd-survey-wallet',
   data () {
     return {
-      text: 'test',
       value: 0
     }
   },
