@@ -3,9 +3,9 @@ import Vuex from 'vuex'
 import state from './state'
 import getWeb3 from '../util/getWeb3'
 import pollWeb3 from '../util/pollWeb3'
-import SurveyController from '../util/js/surveyController'
-import Survey from '../util/js/survey'
-import Wallet from '../util/js/wallet'
+import SurveyController from '../util/getSurveyController'
+import Survey from '../util/getSurvey'
+import Token from '../util/getToken'
 
 Vue.use(Vuex)
 
@@ -26,37 +26,30 @@ export const store = new Vuex.Store({
       pollWeb3()
     },
     pollWeb3Instance (state, payload) {
-      console.log('pollWeb3Instance Mutation being executed', payload)
       state.web3.coinbase = payload.coinbase
       state.web3.balance = parseInt(payload.balance, 10)
     },
 
     // 컨트렉트 인스턴스 등록
     registerSurveyCtrlInstance (state, payload) {
-      console.log('Survey ctrl contract instance: ', payload)
       state.surveyCtrlInstance = () => payload
     },
     registerSurveyContract (state, payload) {
-      console.log('Survey contract instance: ', payload)
       state.surveyInstance = () => payload
     },
     registerWalletInstance (state, payload) {
-      console.log('Wallet contract instance: ', payload)
       state.walletInstance = () => payload
     }
   },
   actions: {
     registerWeb3 ({commit}) {
-      console.log('registerWeb3 Action being executed')
       getWeb3.then(result => {
-        console.log('committing result to registerWeb3Instance mutation')
         commit('registerWeb3Instance', result)
       }).catch(e => {
         console.log('error in action registerWeb3', e)
       })
     },
     pollWeb3 ({commit}, payload) {
-      console.log('pollWeb3 Action being executed')
       commit('pollWeb3Instance', payload)
     },
 
@@ -75,9 +68,7 @@ export const store = new Vuex.Store({
     },
     // 토큰
     getWallet ({commit}) {
-      Wallet.init().then(result => {
-        console.log('commit registerTokenInstance')
-        console.log('result : ', result)
+      Token.init().then(result => {
         commit('registerWalletInstance', result)
       }).catch(e => console.log(e))
     }

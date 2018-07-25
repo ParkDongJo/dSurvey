@@ -20,18 +20,6 @@ const SurveyController = {
         reject(err)
       })
     })
-  },
-  getSurveyList: function () {
-    // let self = this
-    //
-    // return new Promise((resolve, reject) => {
-    //   self.instance.getSurveyList().then(result => {
-    //     console.log(result)
-    //     resolve(result)
-    //   }).catch(err => {
-    //     reject(err)
-    //   })
-    // })
   }
 }
 
