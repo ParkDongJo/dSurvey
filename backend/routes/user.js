@@ -12,6 +12,8 @@ db.once("open", function(callback) {
     console.log("Connection Succeeded");
 });
 
+var User = require("./models/user");
+
 // Add new user
 router.post('/register', (req, res) => {
   var db = req.db;
