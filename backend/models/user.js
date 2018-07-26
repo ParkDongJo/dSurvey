@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  gender: Boolean,
+  gender: String,
   age: Number,
   city: String,
   job: String
