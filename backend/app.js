@@ -26,6 +26,8 @@ app.use('/user', usersRouter);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+var User = require("./models/user");
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -41,41 +43,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/users');
-var db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error"));
-db.once("open", function(callback) {
-    console.log("Connection Succeeded");
-});
-
-var User = require("./models/user");
-
-// Add new user
-app.post('/register', (req, res) => {
-  var db = req.db;
-  var gender = req.body.gender;
-  var age = req.body.age;
-  var city = req.body.city;
-  var job = req.body.job;
-
-  var new_user = new User({
-    gender: gender,
-    age: age,
-    city: city,
-    job: job
-  })
-
-  new_user.save(function (error) {
-    if (error) {
-      console.log(error)
-    }
-    res.send({
-      success: true,
-      message: 'User registered successfully!'
-    })
-  })
-})
 
 module.exports = app;
