@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="center">
+
+    </div>
   </div>
 </template>
 

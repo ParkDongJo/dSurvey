@@ -16,15 +16,20 @@ export default {
   },
   methods: {
     getBalance () {
-      let account = this.$store.state.web3.coinbase
+      let account = self.$store.state.web3.coinbase
       this.value = 0
-
-      this.$store.state.walletInstance().balanceOf(account, {from: account}).then((result) => {
+      self.$store.state.walletInstance().balanceOf(account, {from: account}).then((result) => {
         this.value = result.toString(10)
       }).catch(err => {
         console.log(err)
       })
     }
+  },
+  beforeMount () {
+    // this.getBalance()
+  },
+  beforeUpdate () {
+    // this.getBalance()
   }
 }
 </script>

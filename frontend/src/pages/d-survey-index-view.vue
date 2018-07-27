@@ -7,19 +7,19 @@
     <app-tab></app-tab>
     <div class="center">
       <b-list-group>
-        <b-list-group-item href="#some-link">
+        <b-list-group-item href="#/survey/join">
           Awesome link
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
-        <b-list-group-item href="#" active>
+        <b-list-group-item href="#/survey/join" active>
           Link with active state
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
-        <b-list-group-item href="#">
+        <b-list-group-item href="#/survey/join">
           Action links are easy
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
-        <b-list-group-item href="#foobar" disabled>
+        <b-list-group-item href="#/survey/join" disabled>
           Disabled link
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
@@ -36,7 +36,7 @@ import Tab from '../components/Tab.vue'
 
 export default {
   name: 'd-survey-index',
-  beforeCreate () {
+  created () {
     this.$store.dispatch('registerWeb3')
     this.$store.dispatch('getWallet')
   },
@@ -54,7 +54,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .center {
     margin: auto;
   }

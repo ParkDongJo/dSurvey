@@ -1,9 +1,11 @@
 <template>
-	<div>
-    <h2>{{getAppTitle}}</h2>
-    <div class="pull-right">
-      <i class="fa fa-plus-circle icon"></i> Add Survey |
-      <i class="fa fa-user-circle icon"></i> My Page
+	<div class="header">
+    <div>
+      <router-link to="/"><h2>{{getAppTitle}}</h2></router-link>
+      <div class="pull-right">
+        <i class="fa fa-plus-circle icon"></i> Add Survey |
+        <i class="fa fa-user-circle icon"></i> My Page
+      </div>
     </div>
   </div>
 </template>
@@ -24,5 +26,8 @@ export default Vue.component('app-header', {
 <style>
   .icon:hover {
     cursor: pointer;
+  }
+  .header {
+    margin-bottom: 2em
   }
 </style>
