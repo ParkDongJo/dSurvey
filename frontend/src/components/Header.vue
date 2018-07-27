@@ -3,8 +3,8 @@
     <div>
       <router-link to="/"><h2>{{getAppTitle}}</h2></router-link>
       <div class="pull-right">
-        <i class="fa fa-plus-circle icon"></i> Add Survey |
-        <i class="fa fa-user-circle icon"></i> My Page
+        <router-link class="icon" to="/survey/create"><i class="fa fa-plus-circle"></i> Add Survey</router-link> |
+        <router-link class="icon" to="/survey/wallet"><i class="fa fa-user-circle"></i> My Page</router-link>
       </div>
     </div>
   </div>

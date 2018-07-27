@@ -2,7 +2,7 @@
   <div class=''>
     <app-header></app-header>
 
-    <token-wallet></token-wallet>
+    <!--<token-wallet></token-wallet>-->
 
     <app-tab></app-tab>
     <div class="center">

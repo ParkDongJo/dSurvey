@@ -1,9 +1,13 @@
 <template>
   <div>
-    <p>Token: {{ value }}</p>
-    <!--<p>-->
-      <!--<b-button v-on:click="getBalance">I am a Button</b-button>-->
-    <!--</p>-->
+    <app-header></app-header>
+
+    <div>
+      <p>Token: {{ value }}</p>
+      <!--<p>-->
+        <!--<b-button v-on:click="getBalance">I am a Button</b-button>-->
+      <!--</p>-->
+    </div>
   </div>
 </template>
 <script>
