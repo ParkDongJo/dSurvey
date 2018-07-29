@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./forever start ./bin/www
+./forever start ./www

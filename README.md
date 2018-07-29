@@ -52,6 +52,7 @@ chmod 766 ./run-server.sh
 ```
 ./run-server.sh
 ```
+* 0.0.0.0:3000에 서버를 띄움
 
 ### forever (express 서버를 daemon으로 돌려 줌)
 * 프로세스 리스트 확인
