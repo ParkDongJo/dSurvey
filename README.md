@@ -19,10 +19,10 @@ cd frontend
 npm install
 ```
 
-* ** truffle-hdwallet-provider 소스 수정 **
+* **truffle-hdwallet-provider 소스 수정**
   * ethereumjs-wallet/hdkey를 사용하고 있는데, 0.6.1 버전으로 올라가면서 경로가 ethereumjs-wallet/dist/hdkey로 변경되었다.
   * 그래서 node_module/truffle-hdwallet-provider/index.js의 2번째 줄의 경로를 변경해 줘야 한다.
-
+  * github issue 참고 : https://github.com/trufflesuite/truffle-hdwallet-provider/issues/53
 ### 컨트랙트 컴파일
 ```
 truffle compile
