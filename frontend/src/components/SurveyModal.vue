@@ -50,8 +50,8 @@ export default Vue.component('survey-modal', {
   },
   computed: {
     getRouter () {
-      this.router = new VueRouter()
-      return this.router
+      // this.router = new VueRouter()
+      // return this.router
     }
   },
   methods: {
@@ -87,10 +87,9 @@ export default Vue.component('survey-modal', {
     handleSubmit () {
       // this.names.push(this.name)
 
-      //모달창이 닫혔을 경우 /survey/create으로 경로 이동이 되어야 함, 입력값과 함께
-      let router = this.getRouter()
+      // let router = this.getRouter()
       this.clearData()
-      this.router.go('/survey/create')
+      // this.router.go('/survey/create')
       this.$refs.modal.hide()
     }
   }
