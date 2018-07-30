@@ -1,17 +1,17 @@
 import contract from 'truffle-contract'
-import TokenContract from '@contracts/DSurveyToken.json'
+import TokenMarketContract from '@contracts/DSurveyTokenMarket.json'
 
-const Token = {
+const TokenMarket = {
 
   contract: null,
   instance: null,
-  address: '0xaa0d1457840ceba75194f68abe70a1a6feaeb7c3',
+  address: '0x36d893eeb4fe1bb4f1dc4512f5380f0625405e16',
 
   init: function () {
     let self = this
 
     return new Promise(function (resolve, reject) {
-      self.contract = contract(TokenContract)
+      self.contract = contract(TokenMarketContract)
       self.contract.setProvider(window.web3.currentProvider)
 
       self.contract.at(self.address).then(instance => {
@@ -24,4 +24,4 @@ const Token = {
   }
 }
 
-export default Token
+export default TokenMarket

@@ -5,6 +5,7 @@ const SurveyController = {
 
   contract: null,
   instance: null,
+  address: '0xe838389530dae906f2ffb6ab577bc98a19985a89',
 
   init: function () {
     let self = this
@@ -13,7 +14,7 @@ const SurveyController = {
       self.contract = contract(SurveyCtrlContract)
       self.contract.setProvider(window.web3.currentProvider)
 
-      self.contract.deployed().then(instance => {
+      self.contract.at(self.address).then(instance => {
         self.instance = instance
         resolve(self.instance)
       }).catch(err => {
