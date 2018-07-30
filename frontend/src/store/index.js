@@ -39,6 +39,10 @@ export const store = new Vuex.Store({
     },
     registerWalletInstance (state, payload) {
       state.walletInstance = () => payload
+    },
+    createNewQuestion (state, payload) {
+      state.createView.questions.push(JSON.parse(JSON.stringify(payload.template.q)))
+      state.createView.options.push(JSON.parse(JSON.stringify(payload.template.o)))
     }
   },
   actions: {
@@ -71,6 +75,8 @@ export const store = new Vuex.Store({
       Token.init().then(result => {
         commit('registerWalletInstance', result)
       }).catch(e => console.log(e))
+    },
+    createSurvey ({commit}) {
     }
   },
   getters: {

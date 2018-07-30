@@ -12,7 +12,14 @@ let state = {
   },
   surveyCtrlInstance: null,
   surveyInstance: null,
-  walletInstance: null
+  walletInstance: null,
+  ctrl: {
+    category: []
+  },
+  createView: {
+    questions: [],
+    options: []
+  }
 }
 
 export default state

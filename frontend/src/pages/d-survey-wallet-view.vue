@@ -2,12 +2,10 @@
   <div>
     <app-header></app-header>
 
-    <div>
-      <p>Token: {{ value }}</p>
-      <!--<p>-->
-        <!--<b-button v-on:click="getBalance">I am a Button</b-button>-->
-      <!--</p>-->
-    </div>
+    <p>Token: {{ value }}</p>
+    <!--<p>-->
+      <!--<b-button v-on:click="getBalance">I am a Button</b-button>-->
+    <!--</p>-->
   </div>
 </template>
 <script>
@@ -20,10 +18,12 @@ export default {
   },
   methods: {
     getBalance () {
+      let self = this
       let account = self.$store.state.web3.coinbase
-      this.value = 0
+      self.value = 0
+
       self.$store.state.walletInstance().balanceOf(account, {from: account}).then((result) => {
-        this.value = result.toString(10)
+        self.value = result.toString(10)
       }).catch(err => {
         console.log(err)
       })

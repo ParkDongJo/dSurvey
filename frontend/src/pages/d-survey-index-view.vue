@@ -39,11 +39,14 @@ export default {
   created () {
     this.$store.dispatch('registerWeb3')
     this.$store.dispatch('getWallet')
+    this.$store.dispatch('getSurveyCtrlIns')
   },
   computed: {
     web3 () {
       return this.$store.state.web3
     }
+  },
+  methods: {
   },
   components: {
     'token-wallet': Wallet,
