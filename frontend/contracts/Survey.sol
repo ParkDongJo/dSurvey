@@ -124,8 +124,13 @@ contract Survey is Ownable, SurveyBase, DSurveyTokenReceiver{
   }
 
   // 전체 내용 출력
-  function getQuestionAndChoices(uint _idx) view public returns(string, string[]){
+  function getQuestionAndChoices(uint _idx) view public returns(string, string[]) {
     return (question[_idx], choice[_idx]);
+  }
+
+  // 질문 개수
+  function getNumOfQuestions() view public returns(uint) {
+    return question.length;
   }
 
   // 질문과 선택지 입력
