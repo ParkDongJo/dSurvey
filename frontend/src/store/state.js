@@ -14,7 +14,7 @@ let state = {
   surveyInstance: null,
   walletInstance: null,
   ctrl: {
-    allowance: 0
+    allowance: 0,
     categories: [],
     surveyList: []
   },
