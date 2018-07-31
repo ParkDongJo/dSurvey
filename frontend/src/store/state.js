@@ -14,8 +14,9 @@ let state = {
   surveyInstance: null,
   walletInstance: null,
   ctrl: {
-    category: [],
-    allowance: 0
+    allowance: 0,
+    categories: [],
+    surveyList: []
   },
   createView: {
     instance: null,

@@ -1,5 +1,6 @@
 import contract from 'truffle-contract'
 import SurveyCtrlContract from '@contracts/SurveyController.json'
+import {store} from '../store'
 
 const SurveyController = {
 
@@ -19,6 +20,18 @@ const SurveyController = {
         resolve(self.instance)
       }).catch(err => {
         reject(err)
+      })
+    })
+  },
+
+  getSurveyList: function () {
+    return new Promise(function (resolve, reject) {
+      store.state.surveyCtrlInstance().getSurveyList().then(result => {
+        store.dispatch('getSurveyList', {
+          surveyList: result
+        })
+      }).catch(err => {
+        console.log(err)
       })
     })
   }
