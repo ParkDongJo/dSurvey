@@ -59,11 +59,10 @@ export default {
       })
     }
   },
-  beforeMount () {
-    // this.getBalance()
-  },
-  beforeUpdate () {
-    // this.getBalance()
+  mounted () {
+    setTimeout(() => {
+      this.getBalance()
+    }, 200)
   }
 }
 </script>
