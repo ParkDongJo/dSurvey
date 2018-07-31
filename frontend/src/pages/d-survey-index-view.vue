@@ -5,6 +5,7 @@
     <!--<token-wallet></token-wallet>-->
 
     <app-tab></app-tab>
+
     <div class="center">
       <b-list-group>
         <b-list-group-item href="#/survey/join">
@@ -33,6 +34,7 @@ import Wallet from '@/pages/d-survey-wallet-view'
 import Header from '../components/Header.vue'
 import Card from '../components/Card.vue'
 import Tab from '../components/Tab.vue'
+import pollToken from '../util/poll/pollToken'
 
 export default {
   name: 'd-survey-index',
@@ -40,6 +42,7 @@ export default {
     this.$store.dispatch('registerWeb3')
     this.$store.dispatch('getWallet')
     this.$store.dispatch('getSurveyCtrlIns')
+    pollToken()
   },
   computed: {
     web3 () {

@@ -1,10 +1,9 @@
 import Web3 from 'web3'
-import {store} from '../store'
+import {store} from '../../store/index'
 
 let pollWeb3 = function (state) {
   let web3 = window.web3
   web3 = new Web3(web3.currentProvider)
-
   setInterval(() => {
     if (web3 && store.state.web3.web3Instance) {
       if (web3.eth.coinbase !== store.state.web3.coinbase) {

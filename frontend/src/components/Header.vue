@@ -2,8 +2,12 @@
 	<div class="header">
     <div>
       <router-link to="/"><h2>{{getAppTitle}}</h2></router-link>
+      <div class="pull-left">
+        <strong>Deposit : {{getAllowance}}</strong>
+      </div>
       <div class="pull-right">
-        <survey-modal></survey-modal>
+        <deposit-modal></deposit-modal> |
+        <survey-modal></survey-modal> |
         <router-link class="icon" to="/survey/wallet"><i class="fa fa-user-circle"></i> My Page</router-link>
       </div>
     </div>
@@ -12,16 +16,19 @@
 <script type="text/babel">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import Modal from './SurveyModal.vue'
+import sModal from './modal/SurveyModal.vue'
+import dModal from './modal/DepositModal.vue'
 
 export default Vue.component('app-header', {
   computed: {
     ...mapGetters([
-      'getAppTitle'
+      'getAppTitle',
+      'getAllowance'
     ])
   },
   component: {
-    'survey-modal': Modal
+    'survey-modal': sModal,
+    'deposit-modal': dModal
   }
 })
 </script>
@@ -33,7 +40,7 @@ export default Vue.component('app-header', {
   .header {
     margin-bottom: 2em
   }
-  .inline {
-    display: inline;
+  .inline-block {
+    display: inline-block;
   }
 </style>

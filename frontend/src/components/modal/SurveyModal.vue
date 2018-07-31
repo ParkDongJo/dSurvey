@@ -1,5 +1,5 @@
 <template>
-  <div class="inline">
+  <div class="inline-block">
     <span class="icon link" v-b-modal.surveyModal><i class="fa fa-plus-circle"></i> Add Survey</span>
     <!-- Modal Component -->
     <b-modal id="surveyModal"
@@ -18,11 +18,11 @@
                       placeholder="Enter survey title"
                       v-model="title"></b-form-input>
         <b-form-input class="modal-input"
-                      type="text"
+                      type="number"
                       placeholder="Enter token address"
-                      v-model="tokenAddress"></b-form-input>
+                      v-model="token"></b-form-input>
         <b-form-input class="modal-input"
-                      type="text"
+                      type="number"
                       placeholder="Enter survey reward"
                       v-model="reward"></b-form-input>
 
@@ -37,28 +37,24 @@ import Vue from 'vue'
 export default Vue.component('survey-modal', {
   data () {
     return {
-      router: null,
       selected: [], // Must be an array reference!
       options: [
         {text: 'Cosmetic', value: 0},
         {text: 'Cloth', value: 1}
       ],
       title: '',
-      tokenAddress: '',
+      token: 0,
       reward: 0
     }
   },
   computed: {
-    getRouter () {
-      // this.router = new VueRouter()
-      // return this.router
-    }
+
   },
   methods: {
     clearData () {
       this.selected = []
       this.title = ''
-      this.tokenAddress = ''
+      this.token = 0
       this.reward = 0
     },
     handleOk (evt) {
@@ -76,7 +72,7 @@ export default Vue.component('survey-modal', {
       if (!this.title) {
         return false
       }
-      if (!this.tokenAddress) {
+      if (!this.token) {
         return false
       }
       if (!this.reward) {
@@ -85,12 +81,19 @@ export default Vue.component('survey-modal', {
       return true
     },
     handleSubmit () {
-      // this.names.push(this.name)
+      let self = this
+      // 비동기로 호출 하여 Survey 생성
+      self.$store.dispatch('createSurvey', {
+        categoryIdx: self.selected[0],
+        title: self.title,
+        token: self.token,
+        reward: self.reward,
+        instance: self.$store.state.surveyCtrlInstance()
+      })
 
-      // let router = this.getRouter()
-      this.clearData()
-      // this.router.go('/survey/create')
-      this.$refs.modal.hide()
+      self.$router.push('/survey/create')
+      self.$refs.modal.hide()
+      self.clearData()
     }
   }
 })

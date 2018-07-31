@@ -6,7 +6,7 @@ const Survey = {
   contract: null,
   instance: null,
 
-  create: function (address) {
+  init: function (address) {
     let self = this
 
     return new Promise(function (resolve, reject) {
@@ -20,6 +20,9 @@ const Survey = {
         reject(err)
       })
     })
+  },
+  create: function () {
+
   }
 }
 

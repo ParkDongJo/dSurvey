@@ -14,9 +14,11 @@ let state = {
   surveyInstance: null,
   walletInstance: null,
   ctrl: {
-    category: []
+    category: [],
+    allowance: 0
   },
   createView: {
+    instance: null,
     questions: [],
     options: []
   }
