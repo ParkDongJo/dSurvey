@@ -7,21 +7,9 @@
     <app-tab></app-tab>
 
     <div class="center">
-      <b-list-group>
+      <b-list-group v-if="surveyCtrlInstance">
         <b-list-group-item v-for="survey in surveyList" :key="survey" href="#/survey/join">
           {{ survey }}
-          <b-badge variant="primary" pill>14</b-badge>
-        </b-list-group-item>
-        <b-list-group-item href="#/survey/join" active>
-          Link with active state
-          <b-badge variant="primary" pill>14</b-badge>
-        </b-list-group-item>
-        <b-list-group-item href="#/survey/join">
-          Action links are easy
-          <b-badge variant="primary" pill>14</b-badge>
-        </b-list-group-item>
-        <b-list-group-item href="#/survey/join" disabled>
-          Disabled link
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
       </b-list-group>
@@ -40,7 +28,6 @@ export default {
   name: 'd-survey-index',
   data () {
     return {
-      surveyList: []
     }
   },
   created () {
@@ -50,13 +37,16 @@ export default {
     pollToken()
   },
   mounted () {
-    setInterval(() => {
-      this.getSurveyList()
-    }, 10000)
   },
   computed: {
     web3 () {
       return this.$store.state.web3
+    },
+    surveyCtrlInstance () {
+      return this.$store.state.surveyCtrlInstance
+    },
+    surveyList () {
+      return this.$store.state.ctrl.surveyList
     }
   },
   components: {
@@ -66,11 +56,6 @@ export default {
     'app-tab': Tab
   },
   methods: {
-    getSurveyList () {
-      let self = this
-      self.surveyList = this.$store.state.ctrl.surveyList
-      console.log(self.surveyList)
-    }
   }
 }
 </script>
