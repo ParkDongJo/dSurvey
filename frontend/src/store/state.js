@@ -11,7 +11,7 @@ let state = {
     error: null
   },
   surveyCtrlInstance: null,
-  surveyInstance: null,
+  surveyInstance: [],
   walletInstance: null,
   ctrl: {
     allowance: 0,
@@ -19,6 +19,7 @@ let state = {
     surveyList: []
   },
   createView: {
+    address: '',
     instance: null,
     questions: [],
     options: []

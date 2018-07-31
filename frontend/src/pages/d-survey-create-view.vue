@@ -96,6 +96,8 @@ export default {
       // let account = self.$store.state.web3.coinbase
       self.value = 0
 
+      console.log('address : ', self.$store.state.createView.address)
+
       // self.$store.state.surveyInstance().addQuestionAndChoices(account, {from: account}).then((result) => {
       //   self.value = result.toString(10)
       // }).catch(err => {

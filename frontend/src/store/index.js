@@ -56,6 +56,9 @@ export const store = new Vuex.Store({
     createNewQuestion (state, payload) {
       state.createView.questions.push(JSON.parse(JSON.stringify(payload.template.q)))
       state.createView.options.push(JSON.parse(JSON.stringify(payload.template.o)))
+    },
+    registerNewSurveyContract (state, payload) {
+      state.createView.address = payload
     }
   },
   actions: {
@@ -106,10 +109,10 @@ export const store = new Vuex.Store({
         param.title,
         param.token,
         param.reward,
-        {from: account, gas: 8000000})
+        {from: account, gas: '60000'})
         .then(result => {
           console.log('result survey : ', result)
-          this.getSurvey({at: result})
+          commit('registerNewSurveyContract', result)
         }).catch(err => {
           console.log(err)
         })
