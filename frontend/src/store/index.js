@@ -38,6 +38,10 @@ export const store = new Vuex.Store({
     registerSurveyCtrlInstance (state, payload) {
       console.log('registerSurveyCtrlInstance Mutation being executed', payload)
       state.surveyCtrlInstance = () => payload
+      SurveyController.getSurveyList()
+    },
+    registerSurveyList (state, payload) {
+      state.ctrl.surveyList = payload.surveyList
     },
     registerSurveyContract (state, payload) {
       state.surveyInstance = () => payload
@@ -71,6 +75,9 @@ export const store = new Vuex.Store({
       SurveyController.init().then(result => {
         commit('registerSurveyCtrlInstance', result)
       }).catch(e => console.log(e))
+    },
+    getSurveyList ({commit}, payload) {
+      commit('registerSurveyList', payload)
     },
     // 설문
     getSurvey ({commit}, payload) {

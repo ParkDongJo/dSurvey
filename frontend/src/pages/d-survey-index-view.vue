@@ -38,24 +38,31 @@ import pollToken from '../util/poll/pollToken'
 
 export default {
   name: 'd-survey-index',
-  created () {
+  beforeCreated () {
     this.$store.dispatch('registerWeb3')
-    this.$store.dispatch('getWallet')
+  },
+  created () {
     this.$store.dispatch('getSurveyCtrlIns')
     pollToken()
+    this.showSurveyList()
+  },
+  mounted () {
   },
   computed: {
     web3 () {
       return this.$store.state.web3
     }
   },
-  methods: {
-  },
   components: {
     'token-wallet': Wallet,
     'app-header': Header,
     'app-card': Card,
     'app-tab': Tab
+  },
+  methods: {
+    showSurveyList () {
+      console.log(this.$store.state.ctrl.surveyList)
+    }
   }
 }
 </script>
