@@ -38,7 +38,7 @@ export const store = new Vuex.Store({
     registerSurveyCtrlInstance (state, payload) {
       console.log('registerSurveyCtrlInstance Mutation being executed', payload)
       state.surveyCtrlInstance = () => payload
-      SurveyController.getSurveyList()
+      // SurveyController.getSurveyList()
     },
     registerSurveyList (state, payload) {
       state.ctrl.surveyList = payload.surveyList

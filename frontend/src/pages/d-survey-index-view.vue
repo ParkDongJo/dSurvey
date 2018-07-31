@@ -38,13 +38,12 @@ import pollToken from '../util/poll/pollToken'
 
 export default {
   name: 'd-survey-index',
-  beforeCreated () {
-    this.$store.dispatch('registerWeb3')
-  },
   created () {
+    this.$store.dispatch('registerWeb3')
+    this.$store.dispatch('getWallet')
     this.$store.dispatch('getSurveyCtrlIns')
     pollToken()
-    this.showSurveyList()
+    // this.showSurveyList()
   },
   mounted () {
   },

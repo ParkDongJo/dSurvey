@@ -1,6 +1,6 @@
 import contract from 'truffle-contract'
 import SurveyCtrlContract from '@contracts/SurveyController.json'
-import {store} from '../store'
+import {store} from '../../store'
 
 const SurveyController = {
 
