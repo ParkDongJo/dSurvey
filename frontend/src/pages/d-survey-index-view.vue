@@ -8,8 +8,8 @@
 
     <div class="center">
       <b-list-group>
-        <b-list-group-item href="#/survey/join">
-          Awesome link
+        <b-list-group-item v-for="survey in surveyList" :key="survey" href="#/survey/join">
+          {{ survey }}
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
         <b-list-group-item href="#/survey/join" active>
@@ -38,14 +38,21 @@ import pollToken from '../util/poll/pollToken'
 
 export default {
   name: 'd-survey-index',
+  data () {
+    return {
+      surveyList: []
+    }
+  },
   created () {
     this.$store.dispatch('registerWeb3')
     this.$store.dispatch('getWallet')
     this.$store.dispatch('getSurveyCtrlIns')
     pollToken()
-    // this.showSurveyList()
   },
   mounted () {
+    setInterval(() => {
+      this.getSurveyList()
+    }, 10000)
   },
   computed: {
     web3 () {
@@ -59,8 +66,10 @@ export default {
     'app-tab': Tab
   },
   methods: {
-    showSurveyList () {
-      console.log(this.$store.state.ctrl.surveyList)
+    getSurveyList () {
+      let self = this
+      self.surveyList = this.$store.state.ctrl.surveyList
+      console.log(self.surveyList)
     }
   }
 }

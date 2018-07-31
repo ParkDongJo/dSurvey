@@ -37,11 +37,15 @@ export const store = new Vuex.Store({
     // 컨트렉트 인스턴스 등록
     registerSurveyCtrlInstance (state, payload) {
       console.log('registerSurveyCtrlInstance Mutation being executed', payload)
-      state.surveyCtrlInstance = () => payload
-      // SurveyController.getSurveyList()
-    },
-    registerSurveyList (state, payload) {
-      state.ctrl.surveyList = payload.surveyList
+      let result = payload
+      let ctrlCopy = state.ctrl
+      ctrlCopy.categories = result.categories
+      ctrlCopy.surveyList = result.surveyList
+      state.ctrl = ctrlCopy
+
+      let ctrlInstCopy = state.surveyCtrlInstance
+      ctrlInstCopy = result.surveyCtrlInstance
+      state.surveyCtrlInstance = () => ctrlInstCopy
     },
     registerSurveyContract (state, payload) {
       state.surveyInstance = () => payload
@@ -72,12 +76,11 @@ export const store = new Vuex.Store({
     // 컨트렉트 인스턴스 가져오기
     // 설문컨트롤러
     getSurveyCtrlIns ({commit}) {
-      SurveyController.init().then(result => {
+      SurveyController.then(result => {
         commit('registerSurveyCtrlInstance', result)
-      }).catch(e => console.log(e))
-    },
-    getSurveyList ({commit}, payload) {
-      commit('registerSurveyList', payload)
+      }).catch(e => {
+        console.log(e)
+      })
     },
     // 설문
     getSurvey ({commit}, payload) {
