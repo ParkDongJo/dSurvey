@@ -76,7 +76,7 @@ export const store = new Vuex.Store({
     // 컨트렉트 인스턴스 가져오기
     // 설문컨트롤러
     getSurveyCtrlIns ({commit}) {
-      SurveyController.then(result => {
+      SurveyController.init().then(result => {
         commit('registerSurveyCtrlInstance', result)
       }).catch(e => {
         console.log(e)
