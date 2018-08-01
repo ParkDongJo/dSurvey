@@ -40,7 +40,8 @@ export const store = new Vuex.Store({
       let result = payload
       let ctrlCopy = state.ctrl
       ctrlCopy.categories = result.categories
-      ctrlCopy.surveyList = result.surveyList
+      ctrlCopy.surveys.addresses = result.surveyAddresses
+      ctrlCopy.surveys.titles = result.surveyTitles
       state.ctrl = ctrlCopy
 
       let ctrlInstCopy = state.surveyCtrlInstance

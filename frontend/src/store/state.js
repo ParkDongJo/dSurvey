@@ -16,7 +16,10 @@ let state = {
   ctrl: {
     allowance: 0,
     categories: [],
-    surveyList: []
+    surveys: {
+      addresses: [],
+      titles: []
+    }
   },
   createView: {
     address: '',

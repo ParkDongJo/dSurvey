@@ -1,5 +1,6 @@
 import contract from 'truffle-contract'
 import SurveyCtrlContract from '@contracts/SurveyController.json'
+import SurveyContract from '@contracts/Survey.json'
 // import {store} from '../../store'
 
 const SurveyController = {
@@ -22,12 +23,12 @@ const SurveyController = {
     })
     .then(result => {
       return new Promise(function (resolve, reject) {
-        result.surveyCtrlInstance.getSurveyList().then((surveyList, err) => {
+        result.surveyCtrlInstance.getSurveyList().then((surveyAddresses, err) => {
           if (err) {
             console.log(err)
             reject(new Error('Unable to get survey list'))
           } else {
-            result = Object.assign({}, result, {surveyList})
+            result = Object.assign({}, result, {surveyAddresses})
             resolve(result)
           }
         })
@@ -44,6 +45,27 @@ const SurveyController = {
             resolve(result)
           }
         })
+      })
+    })
+    .then(result => {
+      let surveyPromises = []
+      result.surveyAddresses.forEach(function (surveyAddress) {
+        surveyPromises.push(
+          new Promise(function (resolve, reject) {
+            let contractABI = contract(SurveyContract)
+            contractABI.setProvider(window.web3.currentProvider)
+            contractABI.at(surveyAddress).then(function (instance) {
+              resolve(instance.title())
+            }).catch(err => {
+              reject(err)
+            })
+          })
+        )
+      })
+      return Promise.all(surveyPromises).then(function (surveyTitles) {
+        result = Object.assign({}, result, {surveyTitles})
+        return result
+        // console.log(titles)
       })
     })
   }

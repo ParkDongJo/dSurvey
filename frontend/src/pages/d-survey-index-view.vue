@@ -8,8 +8,8 @@
 
     <div class="center">
       <b-list-group v-if="surveyCtrlInstance">
-        <b-list-group-item v-for="survey in surveyList" :key="survey" href="#/survey/join">
-          {{ survey }}
+        <b-list-group-item v-for="(title, index) in surveyTitles" :key="surveyAddresses[index]" href="#/survey/join">
+          {{ title }}
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
       </b-list-group>
@@ -45,8 +45,11 @@ export default {
     surveyCtrlInstance () {
       return this.$store.state.surveyCtrlInstance
     },
-    surveyList () {
-      return this.$store.state.ctrl.surveyList
+    surveyAddresses () {
+      return this.$store.state.ctrl.surveys.addresses
+    },
+    surveyTitles () {
+      return this.$store.state.ctrl.surveys.titles
     }
   },
   components: {
