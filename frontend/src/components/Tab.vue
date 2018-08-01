@@ -1,14 +1,9 @@
 <template>
     <div class="app-tab">
-      <b-tabs>
+      <b-tabs v-if="surveyCtrlInstance">
         <b-tab title="All" active>
-
         </b-tab>
-        <b-tab title="Cosmetic" >
-
-        </b-tab>
-        <b-tab title="Cloth" >
-
+        <b-tab v-for="category in categories" :key="category" :title="category">
         </b-tab>
       </b-tabs>
     </div>
@@ -18,7 +13,14 @@
     import Vue from 'vue'
 
     export default Vue.component('app-tab', {
-
+      computed: {
+        surveyCtrlInstance () {
+          return this.$store.state.surveyCtrlInstance
+        },
+        categories () {
+          return this.$store.state.ctrl.categories
+        }
+      }
     })
 </script>
 
