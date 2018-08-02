@@ -54,16 +54,21 @@
           {from: account}
         ).then(resp => {
           if (resp) {
-            self.$store.dispatch('pollAllowance', {
-              allowance: resp.toString(10)
+            self.setAllowance(ctrl).then((result) => {
+              self.$refs.modal.hide()
+              self.clearData()
             })
           }
         }).catch(err => {
           console.log(err)
         })
-
-        self.$refs.modal.hide()
-        self.clearData()
+      },
+      // 이게 안되나봄!!! 음... dispatch랑 안되는건가
+      async setAllowance (ctrl) {
+        let self = this
+        return await new Promise(self.$store.dispatch('setAllowance', {
+          instance: ctrl
+        }))
       }
     }
   })

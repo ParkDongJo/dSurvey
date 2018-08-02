@@ -22,7 +22,6 @@ import Wallet from '@/pages/d-survey-wallet-view'
 import Header from '../components/Header.vue'
 import Card from '../components/Card.vue'
 import Tab from '../components/Tab.vue'
-import pollToken from '../util/poll/pollToken'
 
 export default {
   name: 'd-survey-index',
@@ -31,10 +30,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('registerWeb3')
-    this.$store.dispatch('getWallet')
-    this.$store.dispatch('getSurveyCtrlIns')
-    pollToken()
+    this.sync()
   },
   mounted () {
   },
@@ -59,6 +55,11 @@ export default {
     'app-tab': Tab
   },
   methods: {
+    async sync () {
+      await new Promise((resolve, reject) => { resolve(this.$store.dispatch('registerWeb3')) })
+      await new Promise((resolve, reject) => { resolve(this.$store.dispatch('getWallet')) })
+      await new Promise((resolve, reject) => { resolve(this.$store.dispatch('getSurveyCtrlIns')) })
+    }
   }
 }
 </script>

@@ -33,9 +33,18 @@
 <script>
 export default {
   name: 'd-survey-wallet',
+  created () {
+    console.log(this.$store.state.wallet.value)
+    this.value = this.$store.state.wallet.value
+  },
   data () {
     return {
       value: 0
+    }
+  },
+  computed: {
+    token () {
+      return this.$store.state.ctrl.surveyList
     }
   },
   methods: {
@@ -52,9 +61,7 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.getBalance()
-    }, 200)
+
   }
 }
 </script>

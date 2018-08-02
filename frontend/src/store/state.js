@@ -1,6 +1,8 @@
 let state = {
   app: {
-    title: 'D SURVEY'
+    title: 'D SURVEY',
+    tokenAddress: '0xaa0d1457840ceba75194f68abe70a1a6feaeb7c3',
+    ctrlAddress: '0xe838389530dae906f2ffb6ab577bc98a19985a89'
   },
   web3: {
     isInjected: false,
@@ -20,6 +22,9 @@ let state = {
       addresses: [],
       titles: []
     }
+  },
+  wallet: {
+    value: 0
   },
   createView: {
     address: '',

@@ -31,8 +31,8 @@ export const store = new Vuex.Store({
       state.web3.coinbase = payload.coinbase
       state.web3.balance = parseInt(payload.balance, 10)
     },
-    pollAllowance (state, payload) {
-      state.ctrl.allowance = payload.allowance
+    setAllowance (state, payload) {
+      state.ctrl.allowance = parseInt(payload, 10)
     },
     // 컨트렉트 인스턴스 등록
     registerSurveyCtrlInstance (state, payload) {
@@ -52,7 +52,9 @@ export const store = new Vuex.Store({
       state.surveyInstance = () => payload
     },
     registerWalletInstance (state, payload) {
-      state.walletInstance = () => payload
+      state.walletInstance = () => payload.tokenInstance
+      state.ctrl.allowance = payload.allowance
+      state.wallet.value = payload.value
     },
     createNewQuestion (state, payload) {
       state.createView.questions.push(JSON.parse(JSON.stringify(payload.template.q)))
@@ -73,8 +75,16 @@ export const store = new Vuex.Store({
     pollWeb3 ({commit}, payload) {
       commit('pollWeb3Instance', payload)
     },
-    pollAllowance ({commit}, payload) {
-      commit('pollAllowance', payload)
+    setAllowance ({commit}, payload) {
+      let account = store.state.web3.coinbase
+      let param = payload
+      let ctrl = param.instance
+
+      store.state.walletInstance().allowance(account, ctrl.address, {from: ctrl.address}).then((result) => {
+        commit('setAllowance', result)
+      }).catch(err => {
+        console.log(err)
+      })
     },
 
     // 컨트렉트 인스턴스 가져오기
@@ -94,6 +104,7 @@ export const store = new Vuex.Store({
     },
     // 토큰
     getWallet ({commit}) {
+      console.log('getWallet')
       Token.init().then(result => {
         commit('registerWalletInstance', result)
       }).catch(e => console.log(e))
@@ -110,9 +121,8 @@ export const store = new Vuex.Store({
         param.title,
         param.token,
         param.reward,
-        {from: account, gas: '60000'})
+        {from: account, gas: 1565902})
         .then(result => {
-          console.log('result survey : ', result)
           commit('registerNewSurveyContract', result)
         }).catch(err => {
           console.log(err)
@@ -124,7 +134,7 @@ export const store = new Vuex.Store({
       return state.app.title
     },
     getAllowance: () => {
-      return !state.ctrl.allowance ? 0 : state.ctrl.allowance
+      return state.ctrl.allowance
     }
   }
 })

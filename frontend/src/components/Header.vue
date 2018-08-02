@@ -26,6 +26,19 @@ export default Vue.component('app-header', {
       'getAllowance'
     ])
   },
+  methods: {
+    callAllowance () {
+      let self = this
+      let ctrl = self.$store.state.surveyCtrlInstance()
+
+      self.$store.dispatch('setAllowance', {
+        instance: ctrl
+      })
+    }
+  },
+  mounted () {
+
+  },
   component: {
     'survey-modal': sModal,
     'deposit-modal': dModal
