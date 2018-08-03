@@ -61,6 +61,7 @@ export const store = new Vuex.Store({
       state.createView.options.push(JSON.parse(JSON.stringify(payload.template.o)))
     },
     registerNewSurveyContract (state, payload) {
+      console.log('payload ===', payload)
       state.createView.address = payload
     }
   },
@@ -113,20 +114,26 @@ export const store = new Vuex.Store({
     // 컨트렉트 인스턴스 생성
     // 설문
     createSurvey ({commit}, payload) {
-      let param = payload
-      let ctrl = param.instance
-      let account = state.web3.coinbase
+      return new Promise(function (resolve, reject) {
+        let param = payload
+        let ctrl = param.instance
+        let account = state.web3.coinbase
 
-      ctrl.createSurvey(param.categoryIdx,
-        param.title,
-        param.token,
-        param.reward,
-        {from: account, gas: 1565902})
-        .then(result => {
-          commit('registerNewSurveyContract', result)
-        }).catch(err => {
-          console.log(err)
-        })
+        ctrl.createSurvey(
+          parseInt(param.categoryIdx),
+          param.title,
+          parseInt(param.token),
+          parseInt(param.reward),
+          {from: account})
+          .then(result => {
+            console.log('result == ', result)
+            commit('registerNewSurveyContract', result)
+            resolve(result)
+          }).catch(err => {
+            console.log(err)
+            reject(err)
+          })
+      })
     }
   },
   getters: {

@@ -19,7 +19,7 @@ contract SurveyController is Ownable, SurveyBase {
 
   // 설문 액션(생성, 답변, 구매) 이벤트
   event DoSurveyAction(
-    string indexed _title,
+    string _title,
     address indexed _ownerAddress,
     address _surveyAddress,
     uint8 indexed _action
@@ -34,7 +34,7 @@ contract SurveyController is Ownable, SurveyBase {
 
   // 설문 카테고리 추가 이벤트
   event AddCategory(
-    string indexed _newCategory
+    string _newCategory
   );
 
   // 설문 조사 owner만 실행 가능

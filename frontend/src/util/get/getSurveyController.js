@@ -5,7 +5,8 @@ import SurveyContract from '@contracts/Survey.json'
 
 const SurveyController = {
 
-  address: '0xe838389530dae906f2ffb6ab577bc98a19985a89',
+  // address: '0xe838389530dae906f2ffb6ab577bc98a19985a89',
+  address: '0xed57661f7178f5469374973571ada7e8369019b5',
 
   init: function () {
     let self = this

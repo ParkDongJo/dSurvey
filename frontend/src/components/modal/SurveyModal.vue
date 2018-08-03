@@ -92,13 +92,13 @@ export default Vue.component('survey-modal', {
     // 이게 안되나봄!!! 음... dispatch랑 안되는건가
     async createSurvey () {
       let self = this
-      return await new Promise(self.$store.dispatch('createSurvey', {
+      return await self.$store.dispatch('createSurvey', {
         categoryIdx: self.selected[0],
         title: self.title,
         token: self.token,
         reward: self.reward,
         instance: self.$store.state.surveyCtrlInstance()
-      }))
+      })
     }
   }
 })

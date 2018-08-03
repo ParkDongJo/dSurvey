@@ -66,9 +66,9 @@
       // 이게 안되나봄!!! 음... dispatch랑 안되는건가
       async setAllowance (ctrl) {
         let self = this
-        return await new Promise(self.$store.dispatch('setAllowance', {
+        return await self.$store.dispatch('setAllowance', {
           instance: ctrl
-        }))
+        })
       }
     }
   })
