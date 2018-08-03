@@ -85,13 +85,15 @@ export default Vue.component('survey-modal', {
       // 비동기로 호출 하여 Survey 생성
       self.createSurvey().then(() => {
         self.$router.push('/survey/create')
+        self.$store.commit('hideSpin')
         self.$refs.modal.hide()
         self.clearData()
       })
     },
-    // 이게 안되나봄!!! 음... dispatch랑 안되는건가
     async createSurvey () {
       let self = this
+      self.$store.commit('showSpin')
+
       return await self.$store.dispatch('createSurvey', {
         categoryIdx: self.selected[0],
         title: self.title,

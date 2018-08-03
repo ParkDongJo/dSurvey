@@ -47,6 +47,9 @@ export default {
   created () {
     // this.$store.dispatch('getSurvey', {at: ''})
   },
+  mounted () {
+    this.$store.commit('hideSpin')
+  },
   data () {
     return {
       template: QUESTION_TMPL

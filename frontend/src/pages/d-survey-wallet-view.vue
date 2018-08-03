@@ -34,7 +34,6 @@
 export default {
   name: 'd-survey-wallet',
   created () {
-    console.log(this.$store.state.wallet.value)
     this.value = this.$store.state.wallet.value
   },
   data () {
@@ -61,7 +60,7 @@ export default {
     }
   },
   mounted () {
-
+    this.$store.commit('hideSpin')
   }
 }
 </script>

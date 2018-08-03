@@ -2,7 +2,8 @@ let state = {
   app: {
     title: 'D SURVEY',
     tokenAddress: '0xaa0d1457840ceba75194f68abe70a1a6feaeb7c3',
-    ctrlAddress: '0xed57661f7178f5469374973571ada7e8369019b5'
+    ctrlAddress: '0xed57661f7178f5469374973571ada7e8369019b5',
+    loading: false
     // ctrlAddress: '0xe838389530dae906f2ffb6ab577bc98a19985a89'
   },
   web3: {

@@ -34,6 +34,12 @@ export const store = new Vuex.Store({
     setAllowance (state, payload) {
       state.ctrl.allowance = parseInt(payload, 10)
     },
+    showSpin (state, payload) {
+      state.app.loading = true
+    },
+    hideSpin (state, payload) {
+      state.app.loading = false
+    },
     // 컨트렉트 인스턴스 등록
     registerSurveyCtrlInstance (state, payload) {
       console.log('registerSurveyCtrlInstance Mutation being executed', payload)

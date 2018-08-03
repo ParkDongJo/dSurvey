@@ -48,6 +48,8 @@
         let ctrl = self.$store.state.surveyCtrlInstance()
         let approve = self.approve
         let account = self.$store.state.web3.coinbase
+        self.$store.commit('showSpin')
+
         self.$store.state.walletInstance().approve(
           ctrl.address,
           approve,
@@ -55,6 +57,7 @@
         ).then(resp => {
           if (resp) {
             self.setAllowance(ctrl).then((result) => {
+              self.$store.commit('hideSpin')
               self.$refs.modal.hide()
               self.clearData()
             })
@@ -63,7 +66,6 @@
           console.log(err)
         })
       },
-      // 이게 안되나봄!!! 음... dispatch랑 안되는건가
       async setAllowance (ctrl) {
         let self = this
         return await self.$store.dispatch('setAllowance', {

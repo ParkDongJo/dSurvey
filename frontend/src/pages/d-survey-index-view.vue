@@ -27,12 +27,14 @@ export default {
   name: 'd-survey-index',
   data () {
     return {
+      loading: true
     }
   },
   created () {
     this.sync()
   },
   mounted () {
+    this.$store.commit('hideSpin')
   },
   computed: {
     web3 () {
