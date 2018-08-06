@@ -15,7 +15,9 @@ const Survey = {
 
       self.contract.at(address).then(instance => {
         self.instance = instance
-        resolve()
+        resolve({
+          surveyInstance: self.instance
+        })
       }).catch(err => {
         reject(err)
       })

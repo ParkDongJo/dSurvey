@@ -46,6 +46,7 @@ export default {
   name: 'd-survey-create',
   created () {
     // this.$store.dispatch('getSurvey', {at: ''})
+    console.log('view :', this.$store.state.createView.address)
   },
   mounted () {
     this.$store.commit('hideSpin')
@@ -74,11 +75,20 @@ export default {
       this.template.o = optList
     },
     addQuestion () {
-      this.$store.commit('createNewQuestion', {
-        template: this.template
+      let self = this
+      self.$store.commit('showSpin')
+
+      self.$store.dispatch('createNewQuestion', {
+        question: self.makePackage(),
+        account: self.$store.state.web3.coinbase
+      }).then(() => {
+        self.$store.commit('createNewQuestion', {
+          template: self.template
+        })
+        self.$store.commit('hideSpin')
       })
 
-      this.clearTmpl()
+      self.clearTmpl()
     },
     clearTmpl () {
       let tmpl = this.template
@@ -93,6 +103,17 @@ export default {
         return e
       })
       this.template = tmpl
+    },
+    makePackage () {
+      let self = this
+      let qPackage = {q: '', o: []}
+
+      qPackage.q = self.template.q.input.val
+      qPackage.o = self.template.o.map((e) => {
+        return e.input.val
+      })
+
+      return qPackage
     },
     submit () {
       let self = this

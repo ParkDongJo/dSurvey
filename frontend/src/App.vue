@@ -2,7 +2,7 @@
   <div id="app">
     <router-view/>
     <div v-show="$store.state.app.loading" class="loading">
-      <Spinner name="circle" color="blue" class="spiner"/>
+      <Spinner name="circle" color="white" class="spiner"/>
     </div>
   </div>
 </template>

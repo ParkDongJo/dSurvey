@@ -55,7 +55,7 @@ export const store = new Vuex.Store({
       state.surveyCtrlInstance = () => ctrlInstCopy
     },
     registerSurveyContract (state, payload) {
-      state.surveyInstance = () => payload
+      state.selectedSurveyInstance = () => payload.surveyInstance
     },
     registerWalletInstance (state, payload) {
       state.walletInstance = () => payload.tokenInstance
@@ -67,8 +67,7 @@ export const store = new Vuex.Store({
       state.createView.options.push(JSON.parse(JSON.stringify(payload.template.o)))
     },
     registerNewSurveyContract (state, payload) {
-      console.log('payload ===', payload)
-      state.createView.address = payload
+      state.createView.address = payload.logs[0].address
     }
   },
   actions: {
@@ -119,7 +118,7 @@ export const store = new Vuex.Store({
 
     // 컨트렉트 인스턴스 생성
     // 설문
-    createSurvey ({commit}, payload) {
+    createSurvey ({commit, dispatch}, payload) {
       return new Promise(function (resolve, reject) {
         let param = payload
         let ctrl = param.instance
@@ -132,13 +131,33 @@ export const store = new Vuex.Store({
           parseInt(param.reward),
           {from: account})
           .then(result => {
-            console.log('result == ', result)
+            console.log('result == Contract ', result)
             commit('registerNewSurveyContract', result)
+            dispatch('getSurvey', {at: result.logs[0].address})
             resolve(result)
           }).catch(err => {
             console.log(err)
             reject(err)
           })
+      })
+    },
+    createNewQuestion ({commit}, payload) {
+      return new Promise(function (resolve, reject) {
+        let q = payload.question.q
+        let o = payload.question.o
+
+        console.log(typeof q)
+        console.log(typeof o)
+        console.log(q)
+        console.log(o)
+        console.log('account : ', payload.account)
+
+        state.selectedSurveyInstance().addQuestionAndChoices(q, o, {from: payload.account}).then((result) => {
+          // self.value = result.toString(10)
+          resolve(result)
+        }).catch(err => {
+          console.log(err)
+        })
       })
     }
   },

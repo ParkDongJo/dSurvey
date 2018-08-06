@@ -16,6 +16,7 @@ let state = {
   },
   surveyCtrlInstance: null,
   surveyInstance: [],
+  selectedSurveyInstance: null,
   walletInstance: null,
   ctrl: {
     allowance: 0,
