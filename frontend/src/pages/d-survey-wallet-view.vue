@@ -24,10 +24,6 @@
         </p>
       </b-card>
     </b-card-group>
-
-    <!--<p>-->
-      <!--<b-button v-on:click="getBalance">I am a Button</b-button>-->
-    <!--</p>-->
   </div>
 </template>
 <script>
@@ -65,15 +61,14 @@
           return this.getSurvey(e)
         })
 
-        Promise.all(tasks).then((surveys) => {
-          list = surveys.map((survey) => {
+        Promise.all(tasks).then(async (surveys) => {
+          await surveys.forEach(async (survey) => {
             let item = {}
             item.address = survey.surveyInstance.address
-            survey.surveyInstance.title().then((value) => { item.title = value })
-            return item
+            item.title = await survey.surveyInstance.title().then((value) => { return value })
+            this.surveyList.push(item)
           })
           this.$store.commit('hideSpin')
-          this.surveyList = list
         })
       },
       getBalance () {
