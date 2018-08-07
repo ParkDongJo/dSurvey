@@ -6,10 +6,10 @@
 
     <b-card-group deck>
       <b-card header="<b>Transactional log</b>">
-        <b-list-group>
-          <b-list-group-item href="#">Cras justo odio</b-list-group-item>
-          <b-list-group-item href="#">Dapibus ac facilisis in</b-list-group-item>
-          <b-list-group-item href="#">Vestibulum at eros</b-list-group-item>
+        <b-list-group v-if="surveyList.length > 0">
+          <b-list-group-item v-for="(value, index) in surveyList" href="#">
+            {{value}}
+          </b-list-group-item>
         </b-list-group>
         <p class="card-text mt-2">
         </p>
@@ -35,10 +35,12 @@ export default {
   name: 'd-survey-wallet',
   created () {
     this.value = this.$store.state.wallet.value
+    this.sync()
   },
   data () {
     return {
-      value: 0
+      value: 0,
+      surveyList: []
     }
   },
   computed: {
@@ -47,6 +49,16 @@ export default {
     }
   },
   methods: {
+    async sync () {
+      let list = await new Promise((resolve, reject) => {
+        let self = this
+        let account = self.$store.state.web3.coinbase
+
+        resolve(self.$store.dispatch('getSurveyByAddr', {address: account}))
+      })
+      self.surveyList = list
+      console.log(self.surveyList)
+    },
     getBalance () {
       let self = this
       let account = self.$store.state.web3.coinbase
@@ -57,6 +69,10 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    getSurveyList () {
+    },
+    getLogs () {
     }
   },
   mounted () {

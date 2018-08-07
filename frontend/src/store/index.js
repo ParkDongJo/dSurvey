@@ -141,22 +141,26 @@ export const store = new Vuex.Store({
           })
       })
     },
+    // 설문에 질문 추가
     createNewQuestion ({commit}, payload) {
       return new Promise(function (resolve, reject) {
         let q = payload.question.q
         let o = payload.question.o
-
-        console.log(typeof q)
-        console.log(typeof o)
-        console.log(q)
-        console.log(o)
-        console.log('account : ', payload.account)
 
         state.selectedSurveyInstance().addQuestionAndChoices(q, o, {from: payload.account}).then((result) => {
           // self.value = result.toString(10)
           resolve(result)
         }).catch(err => {
           console.log(err)
+        })
+      })
+    },
+    getSurveyByAddr ({commit}, payload) {
+      return new Promise(function (resolve, reject) {
+        state.surveyCtrlInstance().getOwnedSurveyList(payload.address).then(result => {
+          resolve(result)
+        }).catch(err => {
+          reject(err)
         })
       })
     }
