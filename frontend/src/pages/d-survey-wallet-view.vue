@@ -6,9 +6,9 @@
 
     <b-card-group deck>
       <b-card header="<b>Transactional log</b>">
-        <b-list-group v-if="surveyList.length > 0">
-          <b-list-group-item v-for="(value, index) in surveyList" href="#">
-            {{value}}
+        <b-list-group>
+          <b-list-group-item href="#">
+
           </b-list-group-item>
         </b-list-group>
         <p class="card-text mt-2">
@@ -16,9 +16,9 @@
       </b-card>
       <b-card header="<b>Owned survey List</b>">
         <b-list-group>
-          <b-list-group-item href="#">Cras justo odio</b-list-group-item>
-          <b-list-group-item href="#">Dapibus ac facilisis in</b-list-group-item>
-          <b-list-group-item href="#">Vestibulum at eros</b-list-group-item>
+          <b-list-group-item v-for="(survey, index) in ownedSurvey" :key="index" href="#">
+            {{survey.title}}
+          </b-list-group-item>
         </b-list-group>
         <p class="card-text mt-2">
         </p>
@@ -31,54 +31,76 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'd-survey-wallet',
-  created () {
-    this.value = this.$store.state.wallet.value
-    this.sync()
-  },
-  data () {
-    return {
-      value: 0,
-      surveyList: []
-    }
-  },
-  computed: {
-    token () {
-      return this.$store.state.ctrl.surveyList
-    }
-  },
-  methods: {
-    async sync () {
-      let list = await new Promise((resolve, reject) => {
+  import Survey from '../util/get/getSurvey'
+
+  export default {
+    name: 'd-survey-wallet',
+    created () {
+      this.$store.commit('showSpin')
+      this.value = this.$store.state.wallet.value
+      this.sync()
+    },
+    data () {
+      return {
+        value: 0,
+        surveyList: []
+      }
+    },
+    computed: {
+      token () {
+        return this.$store.state.ctrl.surveyList
+      },
+      ownedSurvey () {
+        return this.surveyList
+      }
+    },
+    methods: {
+      async sync () {
+        let list = await new Promise((resolve, reject) => {
+          let account = this.$store.state.web3.coinbase
+
+          resolve(this.$store.dispatch('getSurveyByAddr', {address: account}))
+        })
+        let tasks = list.map((e) => {
+          return this.getSurvey(e)
+        })
+
+        Promise.all(tasks).then((surveys) => {
+          list = surveys.map((survey) => {
+            let item = {}
+            item.address = survey.surveyInstance.address
+            survey.surveyInstance.title().then((value) => { item.title = value })
+            return item
+          })
+          this.$store.commit('hideSpin')
+          this.surveyList = list
+        })
+      },
+      getBalance () {
         let self = this
         let account = self.$store.state.web3.coinbase
+        self.value = 0
 
-        resolve(self.$store.dispatch('getSurveyByAddr', {address: account}))
-      })
-      self.surveyList = list
-      console.log(self.surveyList)
+        self.$store.state.walletInstance().balanceOf(account, {from: account}).then((result) => {
+          self.value = result.toString(10)
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getSurvey (address) {
+        return new Promise(function (resolve, reject) {
+          Survey.init(address).then((result) => {
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+        })
+      }
     },
-    getBalance () {
-      let self = this
-      let account = self.$store.state.web3.coinbase
-      self.value = 0
-
-      self.$store.state.walletInstance().balanceOf(account, {from: account}).then((result) => {
-        self.value = result.toString(10)
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    getSurveyList () {
-    },
-    getLogs () {
+    mounted () {
+      // this.$store.commit('hideSpin')
     }
-  },
-  mounted () {
-    this.$store.commit('hideSpin')
   }
-}
 </script>
 
 <style scoped>
