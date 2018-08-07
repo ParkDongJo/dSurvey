@@ -31,10 +31,11 @@ export default {
     }
   },
   created () {
+    this.$store.commit('showSpin')
     this.sync()
   },
   mounted () {
-    this.$store.commit('hideSpin')
+    // this.$store.commit('hideSpin')
   },
   computed: {
     web3 () {

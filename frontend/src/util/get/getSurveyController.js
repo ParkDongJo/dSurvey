@@ -48,15 +48,18 @@ const SurveyController = {
         })
       })
     })
-    .then(result => {
+    .then(async (result) => {
       let surveyPromises = []
-      result.surveyAddresses.forEach(function (surveyAddress) {
+      await result.surveyAddresses.forEach(function (surveyAddress) {
         surveyPromises.push(
           new Promise(function (resolve, reject) {
             let contractABI = contract(SurveyContract)
             contractABI.setProvider(window.web3.currentProvider)
-            contractABI.at(surveyAddress).then(function (instance) {
-              resolve(instance.title())
+            contractABI.at(surveyAddress).then(async (instance) => {
+              let item = {}
+              item.address = instance.address
+              item.title = await instance.title().then((value) => { return value })
+              resolve(item)
             }).catch(err => {
               reject(err)
             })
@@ -65,6 +68,7 @@ const SurveyController = {
       })
       return Promise.all(surveyPromises).then(function (surveyTitles) {
         result = Object.assign({}, result, {surveyTitles})
+        console.log(result)
         return result
         // console.log(titles)
       })

@@ -98,6 +98,7 @@ export const store = new Vuex.Store({
     getSurveyCtrlIns ({commit}) {
       SurveyController.init().then(result => {
         commit('registerSurveyCtrlInstance', result)
+        commit('hideSpin')
       }).catch(e => {
         console.log(e)
       })
