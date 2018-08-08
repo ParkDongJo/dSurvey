@@ -105,13 +105,17 @@ export const store = new Vuex.Store({
     },
     // 설문
     getSurvey ({commit}, payload) {
-      Survey.init(payload.at).then(result => {
-        commit('registerSurveyContract', result)
-      }).catch(e => console.log(e))
+      return new Promise((resolve, reject) => {
+        Survey.init(payload.at).then(result => {
+          commit('registerSurveyContract', result)
+          resolve(result)
+        }).catch(e => {
+          reject(e)
+        })
+      })
     },
     // 토큰
     getWallet ({commit}) {
-      console.log('getWallet')
       Token.init().then(result => {
         commit('registerWalletInstance', result)
       }).catch(e => console.log(e))

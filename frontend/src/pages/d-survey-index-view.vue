@@ -8,8 +8,8 @@
 
     <div class="center">
       <b-list-group v-if="surveyCtrlInstance">
-        <b-list-group-item v-for="(survey, index) in surveyList" :key="index" href="/survey/join" v-click="passJoinPage(survey.address)">
-          {{ survey.title }}
+        <b-list-group-item v-for="(survey, index) in surveyList" :key="index">
+          <router-link to="/survey/join" @click.native="passJoinPage(survey.address)">{{ survey.title }}</router-link>
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
       </b-list-group>
