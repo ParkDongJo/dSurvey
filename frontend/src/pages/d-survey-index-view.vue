@@ -8,8 +8,8 @@
 
     <div class="center">
       <b-list-group v-if="surveyCtrlInstance">
-        <b-list-group-item v-for="(title, index) in surveyTitles" :key="surveyAddresses[index]" href="#/survey/join">
-          {{ title }}
+        <b-list-group-item v-for="(survey, index) in surveyList" :key="index" href="/survey/join" v-click="passJoinPage(survey.address)">
+          {{ survey.title }}
           <b-badge variant="primary" pill>14</b-badge>
         </b-list-group-item>
       </b-list-group>
@@ -44,11 +44,8 @@ export default {
     surveyCtrlInstance () {
       return this.$store.state.surveyCtrlInstance
     },
-    surveyAddresses () {
-      return this.$store.state.ctrl.surveys.addresses
-    },
-    surveyTitles () {
-      return this.$store.state.ctrl.surveys.titles
+    surveyList () {
+      return this.$store.state.ctrl.surveys
     }
   },
   components: {
@@ -62,6 +59,10 @@ export default {
       await new Promise((resolve, reject) => { resolve(this.$store.dispatch('registerWeb3')) })
       await new Promise((resolve, reject) => { resolve(this.$store.dispatch('getWallet')) })
       await new Promise((resolve, reject) => { resolve(this.$store.dispatch('getSurveyCtrlIns')) })
+    },
+    passJoinPage (address) {
+      this.$cookies.set('currentShowSurveyAddress', address)
+      // this.$router.push('/survey/join')
     }
   }
 }

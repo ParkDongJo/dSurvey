@@ -66,8 +66,8 @@ const SurveyController = {
           })
         )
       })
-      return Promise.all(surveyPromises).then(function (surveyTitles) {
-        result = Object.assign({}, result, {surveyTitles})
+      return Promise.all(surveyPromises).then(function (surveys) {
+        result = Object.assign({}, result, {surveys})
         console.log(result)
         return result
         // console.log(titles)

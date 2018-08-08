@@ -21,10 +21,7 @@ let state = {
   ctrl: {
     allowance: 0,
     categories: [],
-    surveys: {
-      addresses: [],
-      titles: []
-    }
+    surveys: []
   },
   wallet: {
     value: 0

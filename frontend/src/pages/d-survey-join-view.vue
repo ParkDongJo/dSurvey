@@ -53,15 +53,21 @@ export default {
           ]
         }
       ]
-
     }
-  },
-  beforeCreate () {
-    console.log('test log')
   },
   computed: {
   },
   components: {
+  },
+  methods: {
+
+  },
+  beforeCreate () {
+    console.log('test log')
+    console.log(this.$cookies.get('currentShowSurveyAddress'))
+  },
+  mounted () {
+    this.$store.commit('hideSpin')
   }
 }
 </script>

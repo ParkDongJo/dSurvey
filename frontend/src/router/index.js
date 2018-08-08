@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
 import IndexVue from '@/pages/d-survey-index-view'
-import SurveyJoinVeu from '@/pages/d-survey-join-view'
-import SurveyCreateVeu from '@/pages/d-survey-create-view'
+import SurveyJoinVue from '@/pages/d-survey-join-view'
+import SurveyCreateVue from '@/pages/d-survey-create-view'
 import SurveyWalletVue from '@/pages/d-survey-wallet-view'
 import UserLoginVue from '@/pages/user-login-view'
 import UserSignupVue from '@/pages/user-signup-view'
@@ -22,12 +22,12 @@ export default new Router({
     {
       path: '/survey/join',
       name: 'd-survey-join',
-      component: SurveyJoinVeu
+      component: SurveyJoinVue
     },
     {
       path: '/survey/create',
       name: 'd-survey-create',
-      component: SurveyCreateVeu
+      component: SurveyCreateVue
     },
     {
       path: '/survey/wallet',
