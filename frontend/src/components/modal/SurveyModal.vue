@@ -39,8 +39,8 @@ export default Vue.component('survey-modal', {
     return {
       selected: [], // Must be an array reference!
       options: [
-        {text: 'Cosmetic', value: 0},
-        {text: 'Cloth', value: 1}
+        {text: '뷰티', value: 0},
+        {text: '의류', value: 1}
       ],
       title: '',
       token: 0,
@@ -88,18 +88,30 @@ export default Vue.component('survey-modal', {
         self.$store.commit('hideSpin')
         self.$refs.modal.hide()
         self.clearData()
+      }).catch((err) => {
+        console.log(err)
+        self.$store.commit('hideSpin')
+        self.$refs.modal.hide()
+        self.clearData()
       })
     },
     async createSurvey () {
       let self = this
       self.$store.commit('showSpin')
 
-      return await self.$store.dispatch('createSurvey', {
-        categoryIdx: self.selected[0],
-        title: self.title,
-        token: self.token,
-        reward: self.reward,
-        instance: self.$store.state.surveyCtrlInstance()
+      return await new Promise((resolve, reject) => {
+        self.$store.dispatch('createSurvey', {
+          categoryIdx: self.selected[0],
+          title: self.title,
+          token: self.token,
+          reward: self.reward,
+          instance: self.$store.state.surveyCtrlInstance(),
+          gas: 1000000
+        }).then((result) => {
+          resolve(result)
+        }).catch((err) => {
+          reject(err)
+        })
       })
     }
   }

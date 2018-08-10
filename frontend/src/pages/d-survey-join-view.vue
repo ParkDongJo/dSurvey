@@ -4,18 +4,10 @@
 
     <div class="center survey-join">
       <ul>
-        <li class="row">
+        <li class="row" v-for="(opt, index) in contents" :key="index">
           <b-form-group>
-            <h5>{{contents[0].question}}</h5>
-            <b-form-checkbox-group id="checkboxes1" name="flavour1" v-model="selected" :options="contents[0].options">
-            </b-form-checkbox-group>
-          </b-form-group>
-        </li>
-
-        <li class="row">
-          <b-form-group>
-            <h5>{{contents[1].question}}</h5>
-            <b-form-checkbox-group id="checkboxes2" name="flavour2" v-model="selected" :options="contents[1].options">
+            <h5 v-if="contents[index].q">{{contents[index].q}}</h5>
+            <b-form-checkbox-group id="checkboxes1" name="flavour1" v-model="selected" :options="contents[index].o">
             </b-form-checkbox-group>
           </b-form-group>
         </li>
@@ -29,79 +21,88 @@
 </template>
 
 <script>
-export default {
-  name: 'd-survey-join',
-  data () {
-    return {
-      total: 0,
-      selected: [
-      ], // Must be an array reference!
-      contents: [
-        {
-          question: 'What do you like color ?',
-          options: [
-            {text: 'RED', value: 'red'},
-            {text: 'BLUE', value: 'blue'},
-            {text: 'YELLOW', value: 'yellow'}
-          ]
-        },
-        {
-          question: 'What is your gender?',
-          options: [
-            {text: 'Male', value: 'male'},
-            {text: 'Female', value: 'female'}
-          ]
-        }
-      ]
-    }
-  },
-  created () {
-    this.sync()
-  },
-  mounted () {
-    this.$store.commit('hideSpin')
-  },
-  computed: {
-  },
-  methods: {
-    async sync () {
-      let account = this.$cookies.get('currentShowSurveyAddress')
-      console.log('account : ', account)
-      await new Promise((resolve, reject) => {
-        resolve(this.$store.dispatch('getSurvey', {at: account}))
-      }).then(async () => {
-        this.total = await this.getAnswerTotal()
-      }).then(async () => {
-        this.getAnswer()
-      })
-    },
-    getAnswerTotal () {
-      return new Promise((resolve, reject) => {
-        this.$store.state.selectedSurveyInstance().getNumOfQuestions().then((result) => {
-          console.log('total : ', result.toString(10))
-          resolve(result.toString(10))
-        }).catch((err) => {
-          reject(err)
-        })
-      })
-    },
-    getAnswer () {
-      // let idx = new BigNumber(0)
-      let max = this.total
-      console.log(max)
-      for (let i = 0; i < max; i++) {
-        console.log('i : ', i)
-        this.$store.state.selectedSurveyInstance().getQuestionAndChoices(i).then((result) => {
-          console.log(result)
-        }).catch((err) => {
-          console.log(err)
-        })
+  import { QUESTION_JOIN_TMPL } from '../constants/index'
+  export default {
+    name: 'd-survey-join',
+    data () {
+      return {
+        template: QUESTION_JOIN_TMPL,
+        total: 0,
+        selected: [
+        ], // Must be an array reference!
+        contents: []
       }
+    },
+    created () {
+      this.sync()
+    },
+    mounted () {
+      this.$store.commit('hideSpin')
+    },
+    computed: {
+    },
+    methods: {
+      async sync () {
+        let account = this.$cookies.get('currentShowSurveyAddress')
+        console.log('account : ', account)
+        await new Promise((resolve, reject) => {
+          resolve(this.$store.dispatch('getSurvey', {at: account}))
+        }).then(async () => {
+          this.total = await this.getAnswerTotal()
+        }).then(async () => {
+          this.getAnswer()
+        })
+      },
+      getAnswerTotal () {
+        return new Promise((resolve, reject) => {
+          this.$store.state.selectedSurveyInstance().getNumOfQuestions().then((result) => {
+            resolve(result.toString(10))
+          }).catch((err) => {
+            reject(err)
+          })
+        })
+      },
+      getAnswer () {
+        // let idx = new BigNumber(0)
+        let max = this.total
+        for (let i = 0; i < max; i++) {
+          this.$store.state.selectedSurveyInstance().getQuestionAndChoices(i).then((result) => {
+            console.log(result)
+            this.template.q = result[0]
+            for (let i = 0; i < result[1].length; i++) {
+              this.template.o[i].text = result[1][i]
+            }
+            let row = JSON.parse(JSON.stringify(this.template))
+            this.clearTmpl()
+            this.contents.push(this.processOption(row))
+          }).catch((err) => {
+            console.log(err)
+          })
+        }
+      },
+      processOption (row) {
+        let i
+        for (i = row.o.length - 1; i >= 0; i -= 1) {
+          if (row.o[i].text === '') {
+            row.o.splice(i, 1)
+          }
+        }
+        return row
+      },
+      clearTmpl () {
+        let tmpl = this.template
+
+        tmpl.q = ''
+        tmpl.o.map((e, index) => {
+          e.value = ''
+          return e
+        })
+        this.template = tmpl
+      }
+    },
+    components: {
     }
-  },
-  components: {
   }
-}
 </script>
 
 <style scoped>

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { QUESTION_TMPL } from '../constants/index'
+import { QUESTION_CREATE_TMPL } from '../constants/index'
 import Questions from '../components/Questions.vue'
 
 export default {
@@ -53,7 +53,7 @@ export default {
   },
   data () {
     return {
-      template: QUESTION_TMPL
+      template: QUESTION_CREATE_TMPL
     }
   },
   computed: {

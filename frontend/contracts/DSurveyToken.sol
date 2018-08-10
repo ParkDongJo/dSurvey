@@ -24,7 +24,6 @@ import "openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/StandardBurnableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/CappedToken.sol";
-import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/AddressUtils.sol";
@@ -35,7 +34,7 @@ import "openzeppelin-solidity/contracts/AddressUtils.sol";
  * Note they can later distribute these tokens as they wish using `transfer` and other
  * `StandardToken` functions.
  */
-contract DSurveyToken is StandardBurnableToken, CappedToken, PausableToken {
+contract DSurveyToken is StandardBurnableToken, CappedToken {
   using AddressUtils for address;
 
   bytes4 internal constant DSURVEY_TOKEN_RECEIVED = 0x3eed4dd4;

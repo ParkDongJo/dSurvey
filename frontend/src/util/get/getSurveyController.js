@@ -1,18 +1,16 @@
 import contract from 'truffle-contract'
 import SurveyCtrlContract from '@contracts/SurveyController.json'
 import SurveyContract from '@contracts/Survey.json'
-// import {store} from '../../store'
+import {store} from '../../store'
 
 const SurveyController = {
-
-  // address: '0xe838389530dae906f2ffb6ab577bc98a19985a89',
-  address: '0xed57661f7178f5469374973571ada7e8369019b5',
+  address: '',
 
   init: function () {
     let self = this
-
     return new Promise(function (resolve, reject) {
       let surveyControllerABI = contract(SurveyCtrlContract)
+      self.address = store.state.app.ctrlAddress
       surveyControllerABI.setProvider(window.web3.currentProvider)
       surveyControllerABI.at(self.address).then(instance => {
         resolve({
@@ -42,6 +40,8 @@ const SurveyController = {
             console.log(err)
             reject(new Error('Unable to get categories'))
           } else {
+            categories.splice(0, 1)
+            console.log(categories)
             result = Object.assign({}, result, {categories})
             resolve(result)
           }

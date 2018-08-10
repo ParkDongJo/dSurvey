@@ -98,7 +98,7 @@ contract SurveyController is Ownable, SurveyBase {
     require(msg.sender != address(0));
     ownedSurveyList[msg.sender].push(newSurveyAddress);
 
-    emit DoSurveyAction(_title, msg.sender, newSurveyAddress, uint8(Action.Owned));
+//    emit DoSurveyAction(_title, msg.sender, newSurveyAddress, uint8(Action.Owned));
 
     return newSurveyAddress;
   }
