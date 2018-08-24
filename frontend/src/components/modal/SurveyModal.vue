@@ -1,10 +1,10 @@
 <template>
   <div class="inline-block">
-    <span class="icon link" v-b-modal.surveyModal><i class="fa fa-plus-circle"></i> Add Survey</span>
+    <span class="icon link" v-b-modal.surveyModal><i class="fa fa-plus-circle"></i> 설문추가</span>
     <!-- Modal Component -->
     <b-modal id="surveyModal"
              ref="modal"
-             title="Submit survey"
+             title="새 설문지 만들기"
              @ok="handleOk"
              @shown="clearData">
       <form @submit.stop.prevent="handleSubmit">

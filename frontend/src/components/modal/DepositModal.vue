@@ -1,6 +1,6 @@
 <template>
   <div class="inline-block">
-    <span class="icon link" v-b-modal.depositModal><i class="fa fa-bitcoin"></i> Add Deposit</span>
+    <span class="icon link" v-b-modal.depositModal><i class="fa fa-bitcoin"></i> 예치금추가</span>
     <!-- Modal Component -->
     <b-modal id="depositModal"
              ref="modal"

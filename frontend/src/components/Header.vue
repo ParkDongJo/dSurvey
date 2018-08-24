@@ -3,12 +3,12 @@
     <div>
       <router-link to="/"><h2>{{getAppTitle}}</h2></router-link>
       <div class="pull-left">
-        <strong>Deposit : {{getAllowance}}</strong>
+        <strong>예치금 : {{getAllowance}}</strong>
       </div>
       <div class="pull-right">
         <deposit-modal></deposit-modal> |
         <survey-modal></survey-modal> |
-        <router-link class="icon" to="/survey/wallet"><i class="fa fa-user-circle"></i> My Page</router-link>
+        <router-link class="icon" to="/survey/wallet"><i class="fa fa-user-circle"></i> 마이페이지</router-link>
       </div>
     </div>
   </div>

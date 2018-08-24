@@ -43,40 +43,90 @@
     },
     methods: {
       async sync () {
+        // 트러플 코드
+        // let account = this.$cookies.get('currentShowSurveyAddress')
+        // await new Promise((resolve, reject) => {
+        //   resolve(this.$store.dispatch('getSurvey', {at: account}))
+        // }).then(async () => {
+        //   this.total = await this.getAnswerTotal()
+        // }).then(async () => {
+        //   this.getAnswer()
+        // })
         let account = this.$cookies.get('currentShowSurveyAddress')
-        console.log('account : ', account)
+        console.log(account)
         await new Promise((resolve, reject) => {
           resolve(this.$store.dispatch('getSurvey', {at: account}))
-        }).then(async () => {
-          this.total = await this.getAnswerTotal()
-        }).then(async () => {
-          this.getAnswer()
+        }).then(() => {
+          this.getAnswerTotal()
         })
       },
+      // 트러플 코드
+      // getAnswerTotal () {
+      //   return new Promise((resolve, reject) => {
+      //     this.$store.state.selectedSurveyInstance().getNumOfQuestions().then((result) => {
+      //       resolve(result.toString(10))
+      //     }).catch((err) => {
+      //       reject(err)
+      //     })
+      //   })
+      // },
+      // async getAnswer () {
+      //   // let idx = new BigNumber(0)
+      //   let max = this.total
+      //   for (let i = 0; i < max; i++) {
+      //     await new Promise((resolve, reject) => {
+      //       resolve(this.$store.state.selectedSurveyInstance().getQuestionAndChoices(i))
+      //     }).then(async (result) => {
+      //       this.template.q = result[0]
+      //       for (let i = 0; i < result[1].length; i++) {
+      //         this.template.o[i].text = result[1][i]
+      //       }
+      //       let row = JSON.parse(JSON.stringify(this.template))
+      //       this.clearTmpl()
+      //       this.contents.push(this.processOption(row))
+      //     }).catch((err) => {
+      //       console.log(err)
+      //     })
+      //   }
+      // },
+      // 리믹스 코드
       getAnswerTotal () {
-        return new Promise((resolve, reject) => {
-          this.$store.state.selectedSurveyInstance().getNumOfQuestions().then((result) => {
-            resolve(result.toString(10))
-          }).catch((err) => {
-            reject(err)
-          })
+        let self = this
+        self.$store.state.selectedSurveyInstance().getNumOfQuestions(function (err, res) {
+          if (!err) {
+            self.total = res
+            self.getAnswer()
+          } else {
+            console.log(err)
+          }
         })
       },
-      getAnswer () {
+      async getAnswer () {
         // let idx = new BigNumber(0)
         let max = this.total
+        let self = this
+
         for (let i = 0; i < max; i++) {
-          this.$store.state.selectedSurveyInstance().getQuestionAndChoices(i).then((result) => {
-            console.log(result)
-            this.template.q = result[0]
-            for (let i = 0; i < result[1].length; i++) {
-              this.template.o[i].text = result[1][i]
-            }
-            let row = JSON.parse(JSON.stringify(this.template))
-            this.clearTmpl()
-            this.contents.push(this.processOption(row))
-          }).catch((err) => {
-            console.log(err)
+          await new Promise((resolve, reject) => {
+            self.$store.state.selectedSurveyInstance().getQuestionAndChoices(i, function (err, res) {
+              if (!err) {
+                let result = res
+                self.template.q = result[0]
+                console.log(res)
+                console.log(res.toString())
+
+                for (let i = 0; i < result[1].length; i++) {
+                  self.template.o[i].text = result[1][i]
+                }
+                let row = JSON.parse(JSON.stringify(self.template))
+                self.clearTmpl()
+                self.contents.push(self.processOption(row))
+                resolve(true)
+              } else {
+                console.log(err)
+                reject(err)
+              }
+            })
           })
         }
       },
