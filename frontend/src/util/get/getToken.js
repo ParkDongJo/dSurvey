@@ -8,13 +8,13 @@ const Token = {
   instance: null,
   address: '',
 
-  init: function () {
+  init: function (address) {
     let self = this
 
     return new Promise(function (resolve, reject) {
       self.contract = contract(TokenContract)
       self.contract.setProvider(window.web3.currentProvider)
-      self.address = store.state.app.tokenAddress
+      self.address = address
 
       self.contract.at(self.address).then(instance => {
         self.instance = instance
@@ -26,7 +26,7 @@ const Token = {
       })
     }).then(result => {
       return new Promise(function (resolve, reject) {
-        let account = store.state.web3.coinbase
+        let account = store.state.dto.web3.coinbase
         let ctrlAddress = store.state.app.ctrlAddress
 
         result.tokenInstance.allowance(account, ctrlAddress, {from: ctrlAddress}).then((allowance) => {
@@ -39,7 +39,7 @@ const Token = {
       })
     }).then(result => {
       return new Promise(function (resolve, reject) {
-        let account = store.state.web3.coinbase
+        let account = store.state.dto.web3.coinbase
 
         result.tokenInstance.balanceOf(account, {from: account}).then((value) => {
           value = value.toString(10)

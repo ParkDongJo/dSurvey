@@ -45,8 +45,7 @@ import Questions from '../components/Questions.vue'
 export default {
   name: 'd-survey-create',
   created () {
-    // this.$store.dispatch('getSurvey', {at: ''})
-    console.log('view :', this.$store.state.createView.address)
+
   },
   mounted () {
     this.$store.commit('hideSpin')
@@ -80,7 +79,7 @@ export default {
 
       self.$store.dispatch('createNewQuestion', {
         question: self.makePackage(),
-        account: self.$store.state.web3.coinbase
+        account: self.$store.state.dto.web3.coinbase
       }).then(() => {
         self.$store.commit('createNewQuestion', {
           template: self.template
@@ -117,11 +116,9 @@ export default {
     },
     submit () {
       let self = this
-      // let account = self.$store.state.web3.coinbase
       self.value = 0
 
-      console.log('address : ', self.$store.state.createView.address)
-
+      // 잠시 주석 [동조]
       // self.$store.state.surveyInstance().addQuestionAndChoices(account, {from: account}).then((result) => {
       //   self.value = result.toString(10)
       // }).catch(err => {

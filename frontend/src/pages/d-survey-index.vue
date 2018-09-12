@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Wallet from '@/pages/d-survey-wallet-view'
+import Wallet from '@/pages/d-survey-wallet'
 import Header from '../components/Header.vue'
 import Card from '../components/Card.vue'
 import Tab from '../components/Tab.vue'
@@ -35,17 +35,16 @@ export default {
     this.sync()
   },
   mounted () {
-    // this.$store.commit('hideSpin')
   },
   computed: {
     web3 () {
-      return this.$store.state.web3
+      return this.$store.state.dto.web3
     },
     surveyCtrlInstance () {
-      return this.$store.state.surveyCtrlInstance
+      return this.$store.state.dto.controller.instance
     },
     surveyList () {
-      return this.$store.state.ctrl.surveys
+      return this.$store.state.dto.controller.surveys
     }
   },
   components: {
@@ -57,12 +56,12 @@ export default {
   methods: {
     async sync () {
       await new Promise((resolve, reject) => { resolve(this.$store.dispatch('registerWeb3')) })
-      await new Promise((resolve, reject) => { resolve(this.$store.dispatch('getWallet')) })
+      await new Promise((resolve, reject) => { resolve(this.$store.dispatch('getWallet', {at: this.$store.state.app.tokenAddress})) })
       await new Promise((resolve, reject) => { resolve(this.$store.dispatch('getSurveyCtrlIns')) })
     },
     passJoinPage (address) {
+      // 현재 선택된 설문 컨트렉트 주소 저장
       this.$cookies.set('currentShowSurveyAddress', address)
-      // this.$router.push('/survey/join')
     }
   }
 }

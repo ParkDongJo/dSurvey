@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import state from './state'
 import getWeb3 from '../util/get/getWeb3'
 import pollWeb3 from '../util/poll/pollWeb3'
-import pollToken from '../util/poll/pollToken'
 import SurveyController from '../util/get/getSurveyController'
 import Survey from '../util/get/getSurvey'
 import Token from '../util/get/getToken'
@@ -17,22 +16,19 @@ export const store = new Vuex.Store({
     registerWeb3Instance (state, payload) {
       console.log('registerWeb3Instance Mutation being executed', payload)
       let result = payload
-      let web3Copy = state.web3
-      web3Copy.coinbase = result.coinbase
-      web3Copy.networkId = result.networkId
-      web3Copy.balance = parseInt(result.balance, 10)
-      web3Copy.isInjected = result.injectedWeb3
-      web3Copy.web3Instance = result.web3
-      state.web3 = web3Copy
+      state.dto.web3.coinbase = result.coinbase
+      state.dto.web3.networkId = result.networkId
+      state.dto.web3.balance = parseInt(result.balance, 10)
+      state.dto.web3.isInjected = result.injectedWeb3
+      state.dto.web3.web3Instance = result.web3
       pollWeb3()
-      pollToken()
     },
     pollWeb3Instance (state, payload) {
-      state.web3.coinbase = payload.coinbase
-      state.web3.balance = parseInt(payload.balance, 10)
+      state.dto.web3.coinbase = payload.coinbase
+      state.dto.web3.balance = parseInt(payload.balance, 10)
     },
     setAllowance (state, payload) {
-      state.ctrl.allowance = parseInt(payload, 10)
+      state.dto.controller.allowance = parseInt(payload, 10)
     },
     showSpin (state, payload) {
       state.app.loading = true
@@ -42,32 +38,26 @@ export const store = new Vuex.Store({
     },
     // 컨트렉트 인스턴스 등록
     registerSurveyCtrlInstance (state, payload) {
-      console.log('registerSurveyCtrlInstance Mutation being executed', payload)
       let result = payload
-      let ctrlCopy = state.ctrl
-      ctrlCopy.categories = result.categories
-      // ctrlCopy.surveys.addresses = result.surveyAddresses
-      ctrlCopy.surveys = result.surveys
-      state.ctrl = ctrlCopy
+      state.dto.controller.categories = result.categories
+      state.dto.controller.surveys = result.surveys
 
-      let ctrlInstCopy = state.surveyCtrlInstance
-      ctrlInstCopy = result.surveyCtrlInstance
-      state.surveyCtrlInstance = () => ctrlInstCopy
+      state.dto.controller.instance = () => result.surveyCtrlInstance
     },
     registerSurveyContract (state, payload) {
       state.selectedSurveyInstance = () => payload.surveyInstance
     },
     registerWalletInstance (state, payload) {
-      state.walletInstance = () => payload.tokenInstance
-      state.ctrl.allowance = payload.allowance
-      state.wallet.value = payload.value
+      state.dto.wallet.instance = () => payload.tokenInstance
+      state.dto.controller.allowance = payload.allowance
+      state.dto.wallet.value = payload.value
     },
     createNewQuestion (state, payload) {
-      state.createView.questions.push(JSON.parse(JSON.stringify(payload.template.q)))
-      state.createView.options.push(JSON.parse(JSON.stringify(payload.template.o)))
+      state.dto.survey.questions.push(JSON.parse(JSON.stringify(payload.template.q)))
+      state.dto.survey.options.push(JSON.parse(JSON.stringify(payload.template.o)))
     },
     registerNewSurveyContract (state, payload) {
-      state.createView.address = payload.logs[0].address
+      state.dto.survey.address = payload.logs[0].address
     }
   },
   actions: {
@@ -82,11 +72,11 @@ export const store = new Vuex.Store({
       commit('pollWeb3Instance', payload)
     },
     setAllowance ({commit}, payload) {
-      let account = store.state.web3.coinbase
+      let account = store.state.dto.web3.coinbase
       let param = payload
       let ctrl = param.instance
 
-      store.state.walletInstance().allowance(account, ctrl.address, {from: ctrl.address}).then((result) => {
+      store.state.dto.wallet.instance().allowance(account, ctrl.address, {from: ctrl.address}).then((result) => {
         commit('setAllowance', result)
       }).catch(err => {
         console.log(err)
@@ -115,8 +105,8 @@ export const store = new Vuex.Store({
       })
     },
     // 토큰
-    getWallet ({commit}) {
-      Token.init().then(result => {
+    getWallet ({commit}, payload) {
+      Token.init(payload.at).then(result => {
         commit('registerWalletInstance', result)
       }).catch(e => console.log(e))
     },
@@ -175,7 +165,7 @@ export const store = new Vuex.Store({
       return state.app.title
     },
     getAllowance: () => {
-      return state.ctrl.allowance
+      return state.dto.controller.allowance
     }
   }
 })

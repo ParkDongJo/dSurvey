@@ -33,7 +33,7 @@
     name: 'd-survey-wallet',
     created () {
       this.$store.commit('showSpin')
-      this.value = this.$store.state.wallet.value
+      this.value = this.$store.state.instance.wallet.value
       this.sync()
     },
     data () {
@@ -44,7 +44,7 @@
     },
     computed: {
       token () {
-        return this.$store.state.ctrl.surveyList
+        return this.$store.state.dto.controller.surveyList
       },
       ownedSurvey () {
         return this.surveyList
@@ -53,7 +53,7 @@
     methods: {
       async sync () {
         let list = await new Promise((resolve, reject) => {
-          let account = this.$store.state.web3.coinbase
+          let account = this.$store.state.dto.web3.coinbase
 
           resolve(this.$store.dispatch('getSurveyByAddr', {address: account}))
         })
@@ -73,10 +73,10 @@
       },
       getBalance () {
         let self = this
-        let account = self.$store.state.web3.coinbase
+        let account = self.$store.state.dto.web3.coinbase
         self.value = 0
 
-        self.$store.state.walletInstance().balanceOf(account, {from: account}).then((result) => {
+        self.$store.state.dto.wallet.instance().balanceOf(account, {from: account}).then((result) => {
           self.value = result.toString(10)
         }).catch(err => {
           console.log(err)

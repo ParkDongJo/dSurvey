@@ -33,9 +33,6 @@ const Survey = {
       //   reject(err)
       // })
     })
-  },
-  create: function () {
-
   }
 }
 

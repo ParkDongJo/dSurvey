@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
-import IndexVue from '@/pages/d-survey-index-view'
-import SurveyJoinVue from '@/pages/d-survey-join-view'
-import SurveyCreateVue from '@/pages/d-survey-create-view'
-import SurveyWalletVue from '@/pages/d-survey-wallet-view'
-import UserLoginVue from '@/pages/user-login-view'
-import UserSignupVue from '@/pages/user-signup-view'
+import IndexVue from '@/pages/d-survey-index'
+import SurveyJoinVue from '@/pages/d-survey-join'
+import SurveyCreateVue from '@/pages/d-survey-create'
+import SurveyWalletVue from '@/pages/d-survey-wallet'
+import UserLoginVue from '@/pages/user-login'
+import UserSignupVue from '@/pages/user-signup'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)

@@ -43,6 +43,7 @@
     },
     methods: {
       async sync () {
+        // 잠시 주석 - [동조]
         // 트러플 코드
         // let account = this.$cookies.get('currentShowSurveyAddress')
         // await new Promise((resolve, reject) => {
@@ -60,6 +61,7 @@
           this.getAnswerTotal()
         })
       },
+      // 잠시 주석 - [동조]
       // 트러플 코드
       // getAnswerTotal () {
       //   return new Promise((resolve, reject) => {
