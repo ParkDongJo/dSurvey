@@ -22,4 +22,6 @@ __[Commit 본문]__
 - 본문을 72자 단위로 개행한다
 - 어떻게 보다는 무엇과 왜를 설명한다
 
+> Intelij에서 Commit Template Plugin을 활용한다
+> VCS / COMMIT / Commit Tmpl plugin 선택
 [참고 게시물](https://item4.github.io/2016-11-01/How-to-Write-a-Git-Commit-Message/)
